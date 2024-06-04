@@ -1,0 +1,11 @@
+Model Information:
+* title:	Clodsire
+* source:	https://sketchfab.com/3d-models/clodsire-959c967dff754e2badce869eb12968dc
+* author:	Gulugulu (https://sketchfab.com/GuluBuddy)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Clodsire" (https://sketchfab.com/3d-models/clodsire-959c967dff754e2badce869eb12968dc) by Gulugulu (https://sketchfab.com/GuluBuddy) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
