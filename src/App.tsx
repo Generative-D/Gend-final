@@ -10,6 +10,7 @@ import Market from "./pages/market";
 import Mine from "./pages/mine";
 import Header from "./components/header";
 import algosdk from "algosdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   const providers = useInitializeProviders({
@@ -23,18 +24,21 @@ const App = () => {
     algosdkStatic: algosdk,
     debug: true,
   });
+  const queryClient = new QueryClient();
 
   return (
     <>
       <WalletProvider value={providers}>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Gen />} />
-            <Route path="/mine" element={<Mine />} />
-            <Route path="/market" element={<Market />} />
-          </Routes>
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Gen />} />
+              <Route path="/mine" element={<Mine />} />
+              <Route path="/market" element={<Market />} />
+            </Routes>
+          </BrowserRouter>
+        </QueryClientProvider>
       </WalletProvider>
     </>
   );
