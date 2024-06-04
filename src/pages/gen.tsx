@@ -2,11 +2,23 @@ import Creature from "../components/creature";
 
 import { Canvas } from "@react-three/fiber";
 import Box from "../components/box";
+import tw from "twin.macro";
 
 const Gen = () => {
   return (
-    <div>
-      <h1>Generate</h1>
+    <Wrapper>
+      <Title>Generate</Title>
+
+      <GpuWrapper>
+        <GpuBox>
+          <GpuTitle>GPU</GpuTitle>
+          <GpuStatus>🔥</GpuStatus>
+        </GpuBox>
+      </GpuWrapper>
+
+      <QueueWrapper>
+        <QueueBox>Queue Length : 0</QueueBox>
+      </QueueWrapper>
       <Creature />
       <div>
         <Canvas>
@@ -26,8 +38,40 @@ const Gen = () => {
           <Box position={[-1.2, 0, 0]} />
         </Canvas>
       </div>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = tw.div`
+  flex flex-col items-center
+`;
+
+const Title = tw.h1`
+  font-xxxxl-b
+`;
+
+const GpuWrapper = tw.div`
+  flex flex-col items-center
+`;
+
+const GpuBox = tw.div`
+  flex flex-col items-center
+`;
+
+const GpuTitle = tw.h2`
+  font-xxl-b
+`;
+
+const GpuStatus = tw.div`
+  font-xxl-b
+`;
+
+const QueueWrapper = tw.div`
+  flex flex-col items-center
+`;
+
+const QueueBox = tw.div`
+  font-xxl-b
+`;
 
 export default Gen;
