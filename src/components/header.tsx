@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import ConnectWallet from "./connect-wallet";
 import { Provider, useWallet } from "@txnlab/use-wallet";
+import { ellipseAddress } from "../utils/string";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -20,14 +21,14 @@ const Header = () => {
 
           <LogInBox>
             {activeAddress ? (
-              <>
-                <LogOut>activeAddress</LogOut>
+              <AddressWrapper>
+                <Address>{ellipseAddress(activeAddress)}</Address>
                 {providers?.map((provider: Provider) => (
                   <button onClick={() => provider.disconnect()}>
                     Disconnect
                   </button>
                 ))}
-              </>
+              </AddressWrapper>
             ) : (
               <LogIn onClick={toggleWalletModal}>LogIn</LogIn>
             )}
@@ -99,8 +100,13 @@ const LogIn = tw.button`
   cursor-pointer
 `;
 
-const LogOut = tw.button`
-  cursor-pointer
+const AddressWrapper = tw.div`
+  flex items-center gap-4
+`;
+
+const Address = tw.div`
+  flex items-center gap-4
+  font-l-m border-solid border-3 border-gray-400 p-4 rounded-md 
 `;
 
 export default Header;
