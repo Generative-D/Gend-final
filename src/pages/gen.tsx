@@ -1,10 +1,15 @@
 import Creature from "../components/creature";
 
-import { Canvas } from "@react-three/fiber";
-import Box from "../components/box";
 import tw from "twin.macro";
+import { IconUp } from "../components/icon";
+import { useState } from "react";
 
 const Gen = () => {
+  const [promptValue, setPromptValue] = useState<string>("");
+
+  const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromptValue(e.target.value);
+  };
   return (
     <Wrapper>
       <Title>Generate</Title>
@@ -20,30 +25,25 @@ const Gen = () => {
         <QueueBox>Queue Length : 0</QueueBox>
       </QueueWrapper>
       <Creature />
-      <div>
-        <Canvas>
-          <ambientLight intensity={Math.PI / 2} />
-          <spotLight
-            position={[10, 10, 10]}
-            angle={0.15}
-            penumbra={1}
-            decay={0}
-            intensity={Math.PI}
+      <InputWrapper>
+        <InputBox>
+          <Input
+            type="text"
+            placeholder="Prompt"
+            value={promptValue}
+            onChange={handlePromptChange}
           />
-          <pointLight
-            position={[-10, -10, -10]}
-            decay={0}
-            intensity={Math.PI}
-          />
-          <Box position={[-1.2, 0, 0]} />
-        </Canvas>
-      </div>
+          <SendButton type="submit">
+            <IconUp color={promptValue ? "blue" : "black"} />
+          </SendButton>
+        </InputBox>
+      </InputWrapper>
     </Wrapper>
   );
 };
 
 const Wrapper = tw.div`
-  flex flex-col items-center
+  flex flex-col items-center w-screen 
 `;
 
 const Title = tw.h1`
@@ -72,6 +72,22 @@ const QueueWrapper = tw.div`
 
 const QueueBox = tw.div`
   font-xxl-b
+`;
+const InputWrapper = tw.div`
+  flex w-screen box-border p-12
+`;
+const InputBox = tw.div`
+  flex w-full  items-center gap-8 border-solid border-2 border-black
+  p-12
+`;
+
+const Input = tw.input`
+  w-full h-16 border-none
+  focus:outline-none
+`;
+
+const SendButton = tw.button`
+  
 `;
 
 export default Gen;

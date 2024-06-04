@@ -58,8 +58,11 @@ const Header = () => {
 };
 
 const Wrapper = tw.div`
-  flex flex-col w-screen
-  border-solid border-x-0 border-t-0 border-black p-4
+  flex flex-col
+  w-screen p-12 gap-8 relative box-border
+  border-solid border-x-0 border-t-0 border-black 
+ 
+  
 `;
 
 const HeaderBox = tw.div`
@@ -69,7 +72,7 @@ const Title = tw.div`
   font-xxxxl-b
 `;
 const NavBox = tw.div`
-  flex gap-4
+  flex gap-8
 `;
 
 interface NavItemProps {
@@ -77,8 +80,8 @@ interface NavItemProps {
 }
 
 const NavItem = styled.div<NavItemProps>((props) => [
-  tw`cursor-pointer`,
-  props.onNav && tw`font-bold  border-b-2 border-black`,
+  tw`cursor-pointer font-l-m`,
+  props.onNav && tw`font-l-b  border-b-2 border-black`,
 ]);
 
 const LogInBox = tw.div`
