@@ -10,7 +10,12 @@ interface ConnectWalletInterface {
 
 const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   const { providers, activeAddress } = useWallet();
+
   return (
+    // <dialog
+    //   id="connect_wallet_modal"
+    //   className={`modal ${openModal ? "modal-open" : ""}`}
+    // >
     <Dialog id="connect_wallet_modal" openModal={openModal}>
       <form method="dialog" className="modal-box">
         <h3 className="font-bold text-2xl">

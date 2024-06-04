@@ -7,6 +7,9 @@ import { compression } from "vite-plugin-compression2";
 import { splitVendorChunkPlugin } from "vite";
 
 export default defineConfig({
+  define: {
+    global: "globalThis",
+  },
   build: {
     emptyOutDir: true,
     minify: true,
