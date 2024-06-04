@@ -10,14 +10,10 @@ import Market from "./pages/market";
 import Mine from "./pages/mine";
 import Header from "./components/header";
 import algosdk from "algosdk";
-import { DeflyWalletConnect } from "@blockshake/defly-connect";
 
 const App = () => {
   const providers = useInitializeProviders({
-    providers: [
-      { id: PROVIDER_ID.DEFLY, clientStatic: DeflyWalletConnect },
-      { id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect },
-    ],
+    providers: [{ id: PROVIDER_ID.PERA, clientStatic: PeraWalletConnect }],
     nodeConfig: {
       network: "mainnet",
       nodeServer: "https://mainnet-api.algonode.cloud",

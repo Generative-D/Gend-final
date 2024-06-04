@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import ConnectWallet from "./connect-wallet";
-import { useWallet } from "@txnlab/use-wallet";
+import { Provider, useWallet } from "@txnlab/use-wallet";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Header = () => {
   const toggleWalletModal = () => {
     setOpenWalletModal((prev) => !prev);
   };
-  const { activeAddress } = useWallet();
+  const { activeAddress, providers } = useWallet();
   return (
     <>
       <Wrapper>
@@ -20,7 +20,14 @@ const Header = () => {
 
           <LogInBox>
             {activeAddress ? (
-              <LogOut>activeAddress</LogOut>
+              <>
+                <LogOut>activeAddress</LogOut>
+                {providers?.map((provider: Provider) => (
+                  <button onClick={() => provider.disconnect()}>
+                    Disconnect
+                  </button>
+                ))}
+              </>
             ) : (
               <LogIn onClick={toggleWalletModal}>LogIn</LogIn>
             )}

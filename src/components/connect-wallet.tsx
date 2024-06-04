@@ -16,81 +16,78 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
     //   id="connect_wallet_modal"
     //   className={`modal ${openModal ? "modal-open" : ""}`}
     // >
-    <Dialog id="connect_wallet_modal" openModal={openModal}>
-      <form method="dialog" className="modal-box">
-        <h3 className="font-bold text-2xl">
-          {activeAddress ? "Wallet Connected" : "Select wallet provider"}
-        </h3>
+    <>
+      <Dialog id="connect_wallet_modal" openModal={openModal}>
+        <SelectWalletForm method="dialog">
+          <Title>
+            {activeAddress ? "Wallet Connected" : "Select wallet provider"}
+          </Title>
 
-        <div className="grid m-2 pt-5">
-          {activeAddress && (
-            <>
-              <Account />
-              account
-              <div className="divider" />
-            </>
-          )}
+          <div className="grid m-2 pt-5">
+            {activeAddress && (
+              <>
+                <Account />
+                account
+                <div className="divider" />
+              </>
+            )}
 
-          {!activeAddress &&
-            providers?.map((provider) => (
-              <button
-                data-test-id={`${provider.metadata.id}-connect`}
-                className="btn border-1  m-2"
-                key={`provider-${provider.metadata.id}`}
-                onClick={() => {
-                  return provider.connect();
-                }}
-              >
-                <img
-                  alt={`wallet_icon_${provider.metadata.id}`}
-                  src={provider.metadata.icon}
-                  style={{
-                    objectFit: "contain",
-                    width: "30px",
-                    height: "auto",
+            {!activeAddress &&
+              providers?.map((provider) => (
+                <WalletButton
+                  key={`provider-${provider.metadata.id}`}
+                  onClick={() => {
+                    return provider.connect();
                   }}
-                />
+                >
+                  <img
+                    alt={`wallet_icon_${provider.metadata.id}`}
+                    src={provider.metadata.icon}
+                    style={{
+                      objectFit: "contain",
+                      width: "40px",
+                      height: "auto",
+                    }}
+                  />
 
-                <span>{provider.metadata.name}</span>
-              </button>
-            ))}
-        </div>
+                  <span>{provider.metadata.name}</span>
+                </WalletButton>
+              ))}
+          </div>
 
-        <div className="modal-action ">
-          <button
-            data-test-id="close-wallet-modal"
-            className="btn"
-            onClick={() => {
-              closeModal();
-            }}
-          >
-            Close
-          </button>
-          {activeAddress && (
+          <div className="modal-action ">
             <button
-              className="btn btn-secondary"
-              data-test-id="logout"
               onClick={() => {
-                if (providers) {
-                  const activeProvider = providers.find((p) => p.isActive);
-                  if (activeProvider) {
-                    activeProvider.disconnect();
-                  } else {
-                    // Required for logout/cleanup of inactive providers
-                    // For instance, when you login to localnet wallet and switch network
-                    // to testnet/mainnet or vice verse.
-                    localStorage.removeItem("txnlab-use-wallet");
-                    window.location.reload();
-                  }
-                }
+                closeModal();
               }}
             >
-              Logout
+              Close
             </button>
-          )}
-        </div>
-      </form>
-    </Dialog>
+            {activeAddress && (
+              <button
+                onClick={() => {
+                  if (providers) {
+                    const activeProvider = providers.find((p) => p.isActive);
+                    if (activeProvider) {
+                      activeProvider.disconnect();
+                    } else {
+                      // Required for logout/cleanup of inactive providers
+                      // For instance, when you login to localnet wallet and switch network
+                      // to testnet/mainnet or vice verse.
+                      localStorage.removeItem("txnlab-use-wallet");
+                      window.location.reload();
+                    }
+                  }
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        </SelectWalletForm>
+      </Dialog>
+      <Dim openModal={openModal} />
+    </>
   );
 };
 
@@ -100,7 +97,30 @@ interface DialogProps {
 }
 
 const Dialog = styled.dialog<DialogProps>((props) => [
-  tw`fixed inset-0 z-50 overflow-y-auto`,
+  tw`fixed absolute-center z-50 overflow-y-auto`,
+  props.openModal ? tw`block` : tw`hidden`,
+]);
+
+const SelectWalletForm = tw.form`
+  flex flex-col items-center
+  gap-48
+`;
+
+const Title = tw.div`
+  font-xxxxl-b
+`;
+
+const WalletButton = tw.button`
+  flex items-center gap-24
+  w-256 h-64
+  font-xxl-b
+  bg-gray-200
+  p-12
+  rounded-md
+`;
+
+const Dim = styled.div<DialogProps>((props) => [
+  tw`fixed w-full h-full bg-black bg-opacity-50 inset-0 z-1`,
   props.openModal ? tw`block` : tw`hidden`,
 ]);
 

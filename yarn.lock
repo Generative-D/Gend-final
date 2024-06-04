@@ -270,30 +270,6 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@blockshake/defly-connect@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@blockshake/defly-connect/-/defly-connect-1.1.6.tgz#b3cf72c5061214cc6dfa9956d81faf88ca9d6424"
-  integrity sha512-pgibHfWjTkfyjQhRVKR2mnnG7Vv/oBJGowphrIwdF62TkElRspsCrv/GcasZ2ipw+Wrqp3cdsE1W7GU0ZjgPwg==
-  dependencies:
-    "@walletconnect/client" "^1.8.0"
-    "@walletconnect/types" "^1.8.0"
-    bowser "2.11.0"
-    buffer "^6.0.3"
-    lottie-web "^5.9.6"
-    qr-code-styling "1.6.0-rc.1"
-
-"@daffiwallet/connect@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@daffiwallet/connect/-/connect-1.0.3.tgz#fe77b73ad1e867e6171cb8fbdee01cb7f379d0ff"
-  integrity sha512-H2YaVfvsAW57s23JpJD9cP97hJsO527YtoT/Iga/fBlUUe6akXGi5Uvz3q6KAI8jD7GJ4N3qQTpK4nFbTHmDyQ==
-  dependencies:
-    "@evanhahn/lottie-web-light" "5.8.1"
-    "@walletconnect/client" "^1.8.0"
-    "@walletconnect/types" "^1.8.0"
-    bowser "2.11.0"
-    buffer "^6.0.3"
-    qr-code-styling "^1.5.0"
-
 "@emotion/babel-plugin-jsx-pragmatic@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin-jsx-pragmatic/-/babel-plugin-jsx-pragmatic-0.2.1.tgz#01d3306fde73b60d683f78f3bd9f6b2c919b63b6"
@@ -3919,11 +3895,6 @@ loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-web@^5.9.6:
-  version "5.12.2"
-  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.12.2.tgz#579ca9fe6d3fd9e352571edd3c0be162492f68e5"
-  integrity sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==
-
 loupe@^2.3.6, loupe@^2.3.7:
   version "2.3.7"
   resolved "https://registry.yarnpkg.com/loupe/-/loupe-2.3.7.tgz#6e69b7d4db7d3ab436328013d37d1c8c3540c697"
@@ -4556,13 +4527,6 @@ qr-code-styling@1.6.0-rc.1:
   version "1.6.0-rc.1"
   resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.6.0-rc.1.tgz#6c89e185fa50cc9135101085c12ae95b06f1b290"
   integrity sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==
-  dependencies:
-    qrcode-generator "^1.4.3"
-
-qr-code-styling@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.5.0.tgz#e2b34f5bd88a9cbe0a8e136dc4d94b96419fe1f9"
-  integrity sha512-7C+1cZGsZWH0BIRtv24faKZJwkxdYlynXktP9dDxKNSik2bqaUZck3B3MpQod/wqm9i3l4q7QsPGkRGKvcuqZw==
   dependencies:
     qrcode-generator "^1.4.3"
 
