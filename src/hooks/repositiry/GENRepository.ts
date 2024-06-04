@@ -7,6 +7,12 @@ class GENRepository {
     });
     return data;
   };
+  gerateImageByPrompt = async (prompt: string) => {
+    const { data } = await genInstance.post(`/generate`, {
+      prompt: prompt,
+    });
+    return data;
+  };
 }
 
 export const genRepository = new GENRepository();

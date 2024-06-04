@@ -4,12 +4,13 @@ interface axiosApiProps {
   url: string;
   options: AxiosRequestConfig;
 }
-const base = "https://api.example.com";
-const gen = "https://api.example.com/gen";
+
+const base = "http://172.30.1.88:3456";
+const gen = "http://172.30.1.88:3456";
 const axiosApi = ({ url, options }: axiosApiProps) => {
   const instance = axios.create({
     baseURL: url,
-    timeout: 1000,
+    // timeout: 10000,
     headers: { "X-Custom-Header": "foobar" },
     ...options,
   });
