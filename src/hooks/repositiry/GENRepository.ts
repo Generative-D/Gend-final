@@ -7,9 +7,11 @@ class GENRepository {
     });
     return data;
   };
-  gerateImageByPrompt = async (prompt: string) => {
-    const { data } = await genInstance.post(`/generate`, {
-      prompt: prompt,
+  generateImageByPrompt = async (prompt: string) => {
+    const params = new URLSearchParams();
+    params.append("prompt", prompt);
+    const { data } = await genInstance.post(`/generate`, params, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
     return data;
   };

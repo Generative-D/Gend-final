@@ -15,7 +15,7 @@ export const useGenQuery = () => {
     >
   ) =>
     useMutation<void, unknown, string, unknown>({
-      mutationFn: (prompt) => genRepository.gerateImageByPrompt(prompt),
+      mutationFn: (prompt) => genRepository.generateImageByPrompt(prompt),
       ...options,
       onSuccess: (data, variables, context) => {
         if (options?.onSuccess) options.onSuccess(data, variables, context);
