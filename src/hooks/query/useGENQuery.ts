@@ -41,7 +41,21 @@ export const useGenQuery = () => {
       onError: (error, variables, context) => {
         if (options?.onError) options.onError(error, variables, context);
       },
+      onMutate: (variables) => {
+        if (options?.onMutate) options.onMutate(variables);
+      },
     });
 
-  return { useCreateImageByPrompt, useCreateImageWithoutPrompt };
+  const useGetImageByPrompt = (params: string) => {
+    useQuery({
+      queryKey: ["image", params],
+      queryFn: () => genRepository.getImagebyPrompt(params),
+    });
+  };
+
+  return {
+    useCreateImageByPrompt,
+    useCreateImageWithoutPrompt,
+    useGetImageByPrompt,
+  };
 };

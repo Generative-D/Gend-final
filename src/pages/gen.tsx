@@ -11,6 +11,7 @@ const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
   const [imgSrc, setImgSrc] = useState<string>("");
   const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { activeAddress, providers } = useWallet();
 
@@ -42,12 +43,19 @@ const Gen = () => {
     {
       onSuccess: (data) => {
         console.log(data);
+        setIsLoading(false);
       },
       onError: (error) => {
         console.log(error);
+        setIsLoading(false);
+      },
+      onMutate: (variables) => {
+        console.log(variables);
+        setIsLoading(true);
       },
     }
   );
+
   const handleSubmitPrompt = async () => {
     // if (!promptValue) {
     //   alert("Prompt is required");
@@ -79,10 +87,9 @@ const Gen = () => {
     try {
       console.log("activeAddress", activeAddress);
       const result = await createImageWithoutPrompt(activeAddress);
-      if (result) {
-        console.log(result);
-        setImgSrc(result);
-      }
+      console.log(result.datas[0].image);
+      setImgSrc(result.datas[0].image);
+      // console.log(result.datas[0].stats);
     } catch (error) {
       console.error("Error generating image:", error);
     }
@@ -107,13 +114,13 @@ const Gen = () => {
         </InputBox>
       </InputWrapper>
       <GenerateByNoPromptButton onClick={handleGenerateWithoutPrompt}>
-        Generate without Prompt
+        {isLoading ? "Loading..." : "Generate without Prompt"}
       </GenerateByNoPromptButton>
       <GenerateWrapper />
       {imgSrc && (
         <MineWrapper>
           <MineImageWrapper>
-            <MineImage src={imgSrc} />
+            <Base64Image base64String={imgSrc} />
             {imageStats && (
               <StatsBox>
                 <StatsTitle>Stats</StatsTitle>
@@ -156,6 +163,12 @@ const Gen = () => {
         </MineWrapper>
       )}
     </Wrapper>
+  );
+};
+
+const Base64Image = ({ base64String }: { base64String: string }) => {
+  return (
+    <img src={`data:image/png;base64,${base64String}`} alt="Base64 Image" />
   );
 };
 

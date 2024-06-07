@@ -26,6 +26,14 @@ class GENRepository {
     );
     return data;
   };
+
+  getImagebyPrompt = async (prompt: string) => {
+    const { data } = await genInstance.get(
+      `/main-page/get-img-by-prompt?prompt=${prompt}`
+    );
+
+    return data;
+  };
 }
 
 export const genRepository = new GENRepository();
