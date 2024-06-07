@@ -4,6 +4,7 @@ import tw from "twin.macro";
 import { IconUp } from "../components/icon";
 import { useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
+import { GenedImageStat } from "../types/image";
 
 const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
@@ -30,20 +31,16 @@ const Gen = () => {
     console.log(result);
   };
 
+  const dummyImageState: GenedImageStat = {
+    color: "black",
+    size: 100,
+    intelligence: 0.5,
+    active: 0.5,
+    emotion: 0.5,
+    sensitive: 0.5,
+  };
   return (
     <Wrapper>
-      <Title>Generate</Title>
-      <button onClick={onSubmit}>Generate</button>
-      <GpuWrapper>
-        <GpuBox>
-          <GpuTitle>GPU</GpuTitle>
-          <GpuStatus>🔥</GpuStatus>
-        </GpuBox>
-      </GpuWrapper>
-
-      <QueueWrapper>
-        <QueueBox>Queue Length : 0</QueueBox>
-      </QueueWrapper>
       <Creature />
       <InputWrapper>
         <InputBox>
@@ -58,41 +55,50 @@ const Gen = () => {
           </SendButton>
         </InputBox>
       </InputWrapper>
+      <MineWrapper>
+        <MineImageWrapper>
+          <MineImage src="https://via.placeholder.com/150" />
+          <StatsBox>
+            <StatsTitle>Stats</StatsTitle>
+            <StatsItem>
+              <StatsLabel>Color : </StatsLabel>
+              <StatsValue>{dummyImageState.color}</StatsValue>
+            </StatsItem>
+            <StatsItem>
+              <StatsLabel>Size : </StatsLabel>
+              <StatsValue>{dummyImageState.size}</StatsValue>
+            </StatsItem>
+            <StatsItem>
+              <StatsLabel>Intelligence : </StatsLabel>
+              <StatsValue>{dummyImageState.intelligence}</StatsValue>
+            </StatsItem>
+            <StatsItem>
+              <StatsLabel>Active : </StatsLabel>
+              <StatsValue>{dummyImageState.active}</StatsValue>
+            </StatsItem>
+            <StatsItem>
+              <StatsLabel>Emotion : </StatsLabel>
+              <StatsValue>{dummyImageState.emotion}</StatsValue>
+            </StatsItem>
+            <StatsItem>
+              <StatsLabel>Sensitive : </StatsLabel>
+              <StatsValue>{dummyImageState.sensitive}</StatsValue>
+            </StatsItem>
+          </StatsBox>
+        </MineImageWrapper>
+        <MineButtonWrapper>
+          <MineButton>Mine</MineButton>
+          <ApplyButton>Apply</ApplyButton>
+        </MineButtonWrapper>
+      </MineWrapper>
     </Wrapper>
   );
 };
 
 const Wrapper = tw.div`
-  flex flex-col items-center w-screen 
+  flex flex-col items-center w-screen pt-24 gap-12
 `;
 
-const Title = tw.h1`
-  font-xxxxl-b
-`;
-
-const GpuWrapper = tw.div`
-  flex flex-col items-center
-`;
-
-const GpuBox = tw.div`
-  flex flex-col items-center
-`;
-
-const GpuTitle = tw.h2`
-  font-xxl-b
-`;
-
-const GpuStatus = tw.div`
-  font-xxl-b
-`;
-
-const QueueWrapper = tw.div`
-  flex flex-col items-center
-`;
-
-const QueueBox = tw.div`
-  font-xxl-b
-`;
 const InputWrapper = tw.div`
   flex w-screen box-border p-12
 `;
@@ -108,6 +114,51 @@ const Input = tw.input`
 
 const SendButton = tw.button`
   
+`;
+
+const MineWrapper = tw.div`
+  flex flex-col items-center justify-center p-24 gap-12
+`;
+
+const MineImageWrapper = tw.div`
+  flex items-center gap-12
+`;
+
+const MineImage = tw.img`
+  w-200 h-200
+`;
+
+const StatsBox = tw.div`
+  flex flex-col gap-8 w-full p-12
+
+`;
+
+const StatsTitle = tw.h3`
+  font-xxl-b
+`;
+
+const StatsItem = tw.div`
+  flex gap-8 items-center
+`;
+
+const StatsLabel = tw.div`
+  font-xxl-b
+`;
+
+const StatsValue = tw.div`
+  font-xl-m
+`;
+
+const MineButtonWrapper = tw.div`
+  flex gap-8
+`;
+
+const MineButton = tw.button`
+ 
+`;
+
+const ApplyButton = tw.button`
+
 `;
 
 export default Gen;
