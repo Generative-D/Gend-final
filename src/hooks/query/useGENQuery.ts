@@ -25,5 +25,23 @@ export const useGenQuery = () => {
       },
     });
 
-  return { useCreateImageByPrompt };
+  const useCreateImageWithoutPrompt = (
+    options?: Omit<
+      UseMutationOptions<void, unknown, string, unknown>,
+      "mutationFn"
+    >
+  ) =>
+    useMutation<void, unknown, string, unknown>({
+      mutationFn: (address) =>
+        genRepository.generateImageWithoutPrompt(address),
+      ...options,
+      onSuccess: (data, variables, context) => {
+        if (options?.onSuccess) options.onSuccess(data, variables, context);
+      },
+      onError: (error, variables, context) => {
+        if (options?.onError) options.onError(error, variables, context);
+      },
+    });
+
+  return { useCreateImageByPrompt, useCreateImageWithoutPrompt };
 };

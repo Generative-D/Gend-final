@@ -6,6 +6,8 @@ import speechbubble from "../assets/speech-bubble.png";
 import tw from "twin.macro";
 import lottie from "lottie-web/build/player/lottie_light";
 import heart from "../assets/heart.json";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
 const CreatureModel = ({
   onClick,
@@ -27,7 +29,7 @@ const CreatureModel = ({
         object={scene}
         onClick={onClick}
         scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
-        rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
+        // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
       />
     </group>
   );
@@ -37,6 +39,7 @@ const Creature = () => {
   const gltf = useGLTF("src/public/models/creature.glb");
   const [scene, setScene] = useState<THREE.Group | null>(null);
   const [showLottie, setShowLottie] = useState<boolean>(false);
+  const [speech, setSpeech] = useState<string>("");
 
   const warpperRef = useRef<HTMLDivElement>(null);
 
@@ -69,15 +72,22 @@ const Creature = () => {
 
   const handleClick = () => {
     setShowLottie(true);
+    setSpeech("Hello, I'm your AI creature!");
   };
 
   return (
     <Wrapper>
       <LottieWrapper ref={warpperRef} />
-      <SpeechBubbleWrapper>
-        <SpeechBubble src={speechbubble} alt="speechbubble" />
-        <Text>Hello, I'm a creature!</Text>
+      {/* {speech && ( */}
+      <SpeechBubbleWrapper
+        speech={speech}
+        style={{
+          backgroundImage: `url(${speechbubble})`,
+        }}
+      >
+        <Text>{speech}</Text>
       </SpeechBubbleWrapper>
+      {/* )} */}
       <Canvas>
         <Suspense fallback={null}>
           {scene && <CreatureModel onClick={handleClick} scene={scene} />}
@@ -89,16 +99,27 @@ const Creature = () => {
 };
 
 const Wrapper = tw.div`
-  flex flex-col items-center w-300 h-300 relative bg-gray-200
+  flex flex-col items-center justify-center w-screen h-auto  relative 
+  
 `;
-const SpeechBubbleWrapper = tw.div`
-  w-130 h-130 relative
-`;
-const SpeechBubble = tw.img`
-  w-full h-auto
-`;
+
+interface SpeechBubbleProps {
+  speech: string;
+}
+
+const SpeechBubbleWrapper = styled.div<SpeechBubbleProps>((props) => [
+  tw`
+  w-300 h-300 relative
+  bg-center bg-no-repeat bg-contain
+  flex items-center justify-center
+  transition-speech
+`,
+  props.speech ? tw`translate-x-0` : tw`hidden`,
+]);
+
 const Text = tw.div`
-  absolute top-20 left-25 font-l-b
+  font-l-b
+  text-center
 `;
 
 const LottieWrapper = tw.div`

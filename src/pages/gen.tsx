@@ -5,11 +5,14 @@ import { IconUp } from "../components/icon";
 import { useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
 import { GenedImageStat } from "../types/image";
+import { useWallet } from "@txnlab/use-wallet";
 
 const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
   const [imgSrc, setImgSrc] = useState<string>("");
   const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
+
+  const { activeAddress, providers } = useWallet();
 
   const dummyImageState: GenedImageStat = {
     color: "black",
@@ -24,7 +27,7 @@ const Gen = () => {
     setPromptValue(e.target.value);
   };
 
-  const { useCreateImageByPrompt } = useGenQuery();
+  const { useCreateImageByPrompt, useCreateImageWithoutPrompt } = useGenQuery();
 
   const { mutateAsync: createImageByPrompt } = useCreateImageByPrompt({
     onSuccess: (data) => {
@@ -34,6 +37,17 @@ const Gen = () => {
       console.log(error);
     },
   });
+
+  const { mutateAsync: createImageWithoutPrompt } = useCreateImageWithoutPrompt(
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
   const handleSubmitPrompt = async () => {
     // if (!promptValue) {
     //   alert("Prompt is required");
@@ -57,12 +71,26 @@ const Gen = () => {
     setImgSrc("");
   };
 
-  const handleGenerateWithoutPrompt = () => {
-    setImgSrc("https://via.placeholder.com/150");
+  const handleGenerateWithoutPrompt = async () => {
+    if (!activeAddress) {
+      alert("Wallet is required");
+      return;
+    }
+    try {
+      console.log("activeAddress", activeAddress);
+      const result = await createImageWithoutPrompt(activeAddress);
+      if (result) {
+        console.log(result);
+        setImgSrc(result);
+      }
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
   };
 
   return (
     <Wrapper>
+      <div>{activeAddress}</div>
       <Creature />
       <GenerateWrapper></GenerateWrapper>
       <InputWrapper>

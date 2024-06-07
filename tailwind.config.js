@@ -186,6 +186,12 @@ module.exports = {
           transitionDuration: "150ms",
         },
 
+        ".transition-speech": {
+          transitionProperty: "opacity, transform",
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+          transitionDuration: "150ms",
+        },
+
         "text-gradient-blue-left": {
           background: "linear-gradient(180deg, #A9DFFC 0%, #A9DFFC 100%)",
           WebkitBackgroundClip: "text",

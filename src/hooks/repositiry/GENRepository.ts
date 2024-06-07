@@ -15,6 +15,17 @@ class GENRepository {
     });
     return data;
   };
+
+  generateImageWithoutPrompt = async (address: string) => {
+    const { data } = await genInstance.post(
+      `/main-page/feel-free?address=${address}`,
+
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return data;
+  };
 }
 
 export const genRepository = new GENRepository();
