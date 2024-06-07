@@ -1,4 +1,4 @@
-import Creature from "../components/creature";
+import Creature from "../components/my-creature";
 
 import tw from "twin.macro";
 import { IconUp } from "../components/icon";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
 import { GenedImageStat } from "../types/image";
 import { useWallet } from "@txnlab/use-wallet";
+import Loading from "../components/loading";
 
 const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
@@ -33,9 +34,15 @@ const Gen = () => {
   const { mutateAsync: createImageByPrompt } = useCreateImageByPrompt({
     onSuccess: (data) => {
       console.log(data);
+      setIsLoading(false);
     },
     onError: (error) => {
       console.log(error);
+      setIsLoading(false);
+    },
+    onMutate: (variables) => {
+      console.log(variables);
+      setIsLoading(true);
     },
   });
 
@@ -56,16 +63,6 @@ const Gen = () => {
     }
   );
 
-  const handleSubmitPrompt = async () => {
-    // if (!promptValue) {
-    //   alert("Prompt is required");
-    //   return;
-    // }
-    // const result = await createImageByPrompt("hi");
-    // console.log(result);
-    setImgSrc("https://via.placeholder.com/150");
-  };
-
   const handleMine = () => {
     setImageStats(dummyImageState);
   };
@@ -77,6 +74,26 @@ const Gen = () => {
   const handleReset = () => {
     setImageStats(null);
     setImgSrc("");
+  };
+
+  const handleGenerateByPrompt = async () => {
+    if (!activeAddress) {
+      alert("Wallet is required");
+      return;
+    }
+    try {
+      console.log("activeAddress", activeAddress);
+      const result = await createImageByPrompt({
+        prompt: promptValue,
+        address: activeAddress,
+      });
+      console.log(result.datas[0].image);
+      setImgSrc(result.datas[0].image);
+      setPromptValue("");
+      console.log(result.datas[0].stats);
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
   };
 
   const handleGenerateWithoutPrompt = async () => {
@@ -97,6 +114,7 @@ const Gen = () => {
 
   return (
     <Wrapper>
+      {isLoading && <Loading />}
       <div>{activeAddress}</div>
       <Creature />
       <GenerateWrapper></GenerateWrapper>
@@ -108,7 +126,7 @@ const Gen = () => {
             value={promptValue}
             onChange={handlePromptChange}
           />
-          <SendButton type="submit" onClick={handleSubmitPrompt}>
+          <SendButton type="submit" onClick={handleGenerateByPrompt}>
             <IconUp color={promptValue ? "blue" : "black"} />
           </SendButton>
         </InputBox>
@@ -204,10 +222,6 @@ const MineWrapper = tw.div`
 
 const MineImageWrapper = tw.div`
   flex items-center gap-12
-`;
-
-const MineImage = tw.img`
-  w-200 h-200
 `;
 
 const StatsBox = tw.div`

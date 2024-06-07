@@ -7,7 +7,6 @@ import tw from "twin.macro";
 import lottie from "lottie-web/build/player/lottie_light";
 import heart from "../assets/heart.json";
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 
 const CreatureModel = ({
   onClick,
