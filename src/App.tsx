@@ -7,10 +7,10 @@ import {
 import { PeraWalletConnect } from "@perawallet/connect";
 import Gen from "./pages/gen";
 import Market from "./pages/market";
-import Mine from "./pages/mine";
 import Header from "./components/header";
 import algosdk from "algosdk";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import MyPage from "./pages/my-page";
 
 const App = () => {
   const providers = useInitializeProviders({
@@ -34,8 +34,8 @@ const App = () => {
             <Header />
             <Routes>
               <Route path="/" element={<Gen />} />
-              <Route path="/mine" element={<Mine />} />
               <Route path="/market" element={<Market />} />
+              <Route path="/my-page" element={<MyPage />} />
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

@@ -9,6 +9,7 @@ import { ellipseAddress } from "../utils/string";
 const Header = () => {
   const navigate = useNavigate();
   const [openWalletModal, setOpenWalletModal] = useState(false);
+
   const toggleWalletModal = () => {
     setOpenWalletModal((prev) => !prev);
   };
@@ -44,16 +45,16 @@ const Header = () => {
           </NavItem>
 
           <NavItem
-            onClick={() => navigate("/mine")}
-            onNav={window.location.pathname === "/mine"}
-          >
-            Mine
-          </NavItem>
-          <NavItem
             onClick={() => navigate("/market")}
             onNav={window.location.pathname === "/market"}
           >
             Market
+          </NavItem>
+          <NavItem
+            onClick={() => navigate("/my-page")}
+            onNav={window.location.pathname === "/my-page"}
+          >
+            My Page
           </NavItem>
         </NavBox>
       </Wrapper>
@@ -68,7 +69,7 @@ const Header = () => {
 const Wrapper = tw.div`
   flex flex-col
   w-screen p-12 gap-8 relative box-border
-  border-solid border-x-0 border-t-0 border-black 
+  border-solid border-x-0 border-t-0 border-green 
  
   
 `;
