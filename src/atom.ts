@@ -1,2 +1,9 @@
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { atom } from "jotai";
+//import { NftMarketplaceListClient } from './contracts/NftMarketplaceList'
+
+export const algorandClientAtom = atom<AlgorandClient | null>(null);
+//export const listClientAtom = atom<NftMarketplaceListClient | null>(null)
+export const isSellingAtom = atom<boolean>(false);
+export const appDetailsListAtom = atom<appDetails[]>([]);
+export const healthAtom = atom<boolean>(false);
