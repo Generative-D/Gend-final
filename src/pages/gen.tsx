@@ -43,7 +43,7 @@ const Gen = () => {
     useCreateImageByPrompt,
     useCreateImageWithoutPrompt,
     useGetUserAi,
-    useMessage,
+    useMine,
   } = useGenQuery();
 
   const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
@@ -89,9 +89,20 @@ const Gen = () => {
     }
   );
 
-  const handleMine = () => {
-    setImageStats(dummyImageState);
-  };
+  const { mutateAsync: mine } = useMine({
+    onSuccess: (data) => {
+      console.log(data);
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      console.log(error);
+      setIsLoading(false);
+    },
+    onMutate: (variables) => {
+      console.log(variables);
+      setIsLoading(true);
+    },
+  });
 
   const handleApply = () => {
     alert("Apply");
@@ -115,7 +126,7 @@ const Gen = () => {
       });
       console.log(result.datas[0].image);
       setImgSrc(result.datas[0].image);
-      setPromptValue("");
+
       console.log(result.datas[0].stats);
     } catch (error) {
       console.error("Error generating image:", error);
@@ -133,6 +144,25 @@ const Gen = () => {
       console.log(result.datas[0].image);
       setImgSrc(result.datas[0].image);
       // console.log(result.datas[0].stats);
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
+  };
+
+  const handleMine = async () => {
+    if (!activeAddress) {
+      alert("Wallet is required");
+      return;
+    }
+    try {
+      console.log("activeAddress", activeAddress);
+      const result = await mine({
+        address: activeAddress,
+        prompt: promptValue,
+        chain_address: "",
+      });
+      console.log(result);
+      setImageStats(dummyImageState);
     } catch (error) {
       console.error("Error generating image:", error);
     }
