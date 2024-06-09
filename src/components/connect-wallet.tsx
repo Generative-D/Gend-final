@@ -97,7 +97,7 @@ interface DialogProps {
 }
 
 const Dialog = styled.dialog<DialogProps>((props) => [
-  tw`fixed absolute-center z-50 overflow-y-auto`,
+  tw`fixed  z-50 overflow-y-auto`,
   props.openModal ? tw`block` : tw`hidden`,
 ]);
 

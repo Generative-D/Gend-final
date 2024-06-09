@@ -2,16 +2,26 @@ import Creature from "../components/my-creature";
 
 import tw from "twin.macro";
 import { IconUp } from "../components/icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
 import { GenedImageStat } from "../types/image";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
 
+interface aiStats {
+  active: number;
+  color: string;
+  emotion: number;
+  intelligence: number;
+  seneitive: number;
+  size: number;
+}
+
 const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
   const [imgSrc, setImgSrc] = useState<string>("");
   const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
+  const [aiStats, setAiStats] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { activeAddress, providers } = useWallet();
@@ -29,7 +39,19 @@ const Gen = () => {
     setPromptValue(e.target.value);
   };
 
-  const { useCreateImageByPrompt, useCreateImageWithoutPrompt } = useGenQuery();
+  const { useCreateImageByPrompt, useCreateImageWithoutPrompt, useGetUserAi } =
+    useGenQuery();
+
+  const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
+  console.log(userAiData?.ai_stats.basic);
+  useEffect(() => {
+    if (userAiData) {
+      setAiStats(userAiData.basic);
+      console.log(userAiData.basic);
+    } else {
+      console.log("No Data");
+    }
+  }, [userAiData]);
 
   const { mutateAsync: createImageByPrompt } = useCreateImageByPrompt({
     onSuccess: (data) => {
@@ -112,29 +134,58 @@ const Gen = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (userAiData) {
+  //     setAiStats(userAiData);
+  //     console.log(aiStats);
+  //   }
+  // }, [userAiData, aiStats]);
+
   return (
     <Wrapper>
       {isLoading && <Loading />}
-      <div>{activeAddress}</div>
-      <Creature />
-      <GenerateWrapper></GenerateWrapper>
-      <InputWrapper>
-        <InputBox>
-          <Input
-            type="text"
-            placeholder="Prompt"
-            value={promptValue}
-            onChange={handlePromptChange}
-          />
-          <SendButton type="submit" onClick={handleGenerateByPrompt}>
-            <IconUp color={promptValue ? "blue" : "black"} />
-          </SendButton>
-        </InputBox>
-      </InputWrapper>
-      <GenerateByNoPromptButton onClick={handleGenerateWithoutPrompt}>
-        {isLoading ? "Loading..." : "Generate without Prompt"}
-      </GenerateByNoPromptButton>
-      <GenerateWrapper />
+      <AiWrapper>
+        <Creature />
+        <AiStatsBox>
+          <AiStatsTitle>My Creature Stats</AiStatsTitle>
+          <AiStatsItem>
+            Active : {userAiData?.ai_stats.basic.active}
+          </AiStatsItem>
+          <AiStatsItem
+            style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+          >
+            Color : {userAiData?.ai_stats.basic.color}
+          </AiStatsItem>
+          <AiStatsItem>
+            Emotion : {userAiData?.ai_stats.basic.emotion}
+          </AiStatsItem>
+          <AiStatsItem>
+            Intelligence : {userAiData?.ai_stats.basic.inteligence}
+          </AiStatsItem>
+          <AiStatsItem>
+            Sensitive : {userAiData?.ai_stats.basic.seneitive}
+          </AiStatsItem>
+          <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
+        </AiStatsBox>
+      </AiWrapper>
+      <GenerateWrapper>
+        <InputWrapper>
+          <InputBox>
+            <Input
+              type="text"
+              placeholder="Prompt"
+              value={promptValue}
+              onChange={handlePromptChange}
+            />
+            <SendButton type="submit" onClick={handleGenerateByPrompt}>
+              <IconUp color={promptValue ? "blue" : "black"} />
+            </SendButton>
+          </InputBox>
+        </InputWrapper>
+        <GenerateByNoPromptButton onClick={handleGenerateWithoutPrompt}>
+          {isLoading ? "Loading..." : "Generate without Prompt"}
+        </GenerateByNoPromptButton>
+      </GenerateWrapper>
       {imgSrc && (
         <MineWrapper>
           <MineImageWrapper>
@@ -143,12 +194,12 @@ const Gen = () => {
               <StatsBox>
                 <StatsTitle>Stats</StatsTitle>
                 <StatsItem>
-                  <StatsLabel>Color : </StatsLabel>
+                  <StatsLabel>Color:</StatsLabel>
                   <StatsValue>{dummyImageState.color}</StatsValue>
                 </StatsItem>
                 <StatsItem>
                   <StatsLabel>Size : </StatsLabel>
-                  <StatsValue>{dummyImageState.size}</StatsValue>
+                  <StatsValue>{dummyImageState.size} </StatsValue>
                 </StatsItem>
                 <StatsItem>
                   <StatsLabel>Intelligence : </StatsLabel>
@@ -186,13 +237,34 @@ const Gen = () => {
 
 const Base64Image = ({ base64String }: { base64String: string }) => {
   return (
-    <img src={`data:image/png;base64,${base64String}`} alt="Base64 Image" />
+    <img
+      src={`data:image/png;base64,${base64String}`}
+      alt="Base64 Image"
+      width="300"
+      height="300"
+    />
   );
 };
 
 const Wrapper = tw.div`
   flex flex-col items-center w-screen pt-24 gap-12
   box-border
+`;
+
+const AiWrapper = tw.div`
+  flex w-screen items-center gap-48 justify-center
+`;
+
+const AiStatsBox = tw.div`
+  flex flex-col gap-8
+`;
+
+const AiStatsTitle = tw.h3`
+  font-xxl-b
+`;
+
+const AiStatsItem = tw.div`
+  font-xxl-b
 `;
 
 const GenerateWrapper = tw.div`

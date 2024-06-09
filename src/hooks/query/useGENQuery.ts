@@ -55,16 +55,80 @@ export const useGenQuery = () => {
       },
     });
 
-  const useGetImageByPrompt = (params: string) => {
-    useQuery({
-      queryKey: ["image", params],
-      queryFn: () => genRepository.getImagebyPrompt(params),
+  const useApplyStats = (
+    options?: Omit<
+      UseMutationOptions<
+        void,
+        unknown,
+        { address: string; chain_address: string },
+        unknown
+      >,
+      "mutationFn"
+    >
+  ) =>
+    useMutation<
+      void,
+      unknown,
+      { address: string; chain_address: string },
+      unknown
+    >({
+      mutationFn: ({ address, chain_address }) =>
+        genRepository.applyStats({ address, chain_address }),
+      ...options,
+      onSuccess: (data, variables, context) => {
+        if (options?.onSuccess) options.onSuccess(data, variables, context);
+      },
+      onError: (error, variables, context) => {
+        if (options?.onError) options.onError(error, variables, context);
+      },
+      onMutate: (variables) => {
+        if (options?.onMutate) options.onMutate(variables);
+      },
+    });
+
+  const useGetUserAi = (params: string) => {
+    return useQuery({
+      queryKey: ["userAi", params],
+      queryFn: () => genRepository.getUserAi(params),
     });
   };
+  const useMine = (
+    options?: Omit<
+      UseMutationOptions<
+        void,
+        unknown,
+        { address: string; prompt: string; chain_address: string },
+        unknown
+      >,
+      "mutationFn"
+    >
+  ) =>
+    useMutation<
+      void,
+      unknown,
+      { address: string; prompt: string; chain_address: string },
+      unknown
+    >({
+      mutationFn: ({ address, prompt, chain_address }) =>
+        genRepository.mine({ address, prompt, chain_address }),
+      ...options,
+      onSuccess: (data, variables, context) => {
+        if (options?.onSuccess) options.onSuccess(data, variables, context);
+      },
+      onError: (error, variables, context) => {
+        if (options?.onError) options.onError(error, variables, context);
+      },
+      onMutate: (variables) => {
+        if (options?.onMutate) options.onMutate(variables);
+      },
+    });
 
   return {
     useCreateImageByPrompt,
     useCreateImageWithoutPrompt,
-    useGetImageByPrompt,
+
+    useApplyStats,
+    useGetUserAi,
+    useMine,
   };
 };

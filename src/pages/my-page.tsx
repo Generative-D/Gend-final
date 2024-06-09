@@ -41,7 +41,7 @@ const MyPage = () => {
                 </StatBox>
               </InfoBox>
               <PriceBox>
-                {image.priceRatio && (
+                {image.priceRatio ? (
                   <>
                     <Doughnut
                       data={{
@@ -57,6 +57,8 @@ const MyPage = () => {
                     />
                     <PriceTitle>Price Ratio</PriceTitle>
                   </>
+                ) : (
+                  <Yet>Not sold yet</Yet>
                 )}
               </PriceBox>
             </ImageBox>
@@ -97,7 +99,7 @@ const InfoBox = tw.div`
 `;
 
 const PriceBox = tw.div`
-  flex flex-col gap-8 items-center
+  flex flex-col gap-8 items-center justify-center
 `;
 
 const PriceTitle = tw.div`
@@ -105,7 +107,7 @@ const PriceTitle = tw.div`
 `;
 
 const ImageBox = tw.div`
-  flex gap-8 box-border
+  flex gap-16 box-border
 `;
 
 const Image = tw.img`
@@ -126,6 +128,10 @@ const StatTitle = tw.div`
 
 const StatValue = tw.div`
   font-l-m
+`;
+
+const Yet = tw.div`
+  font-xxl-b
 `;
 
 export default MyPage;

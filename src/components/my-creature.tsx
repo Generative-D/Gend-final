@@ -98,7 +98,7 @@ const Creature = () => {
 };
 
 const Wrapper = tw.div`
-  flex flex-col items-center justify-center w-screen h-auto  relative 
+  flex flex-col items-center justify-center w-300  h-auto  relative 
   
 `;
 
