@@ -68,6 +68,19 @@ class GENRepository {
     return response.data;
   };
 
+  getMessage = async ({
+    address,
+    prompt,
+  }: {
+    address: string;
+    prompt: string;
+  }) => {
+    const { data } = await genInstance.get(
+      `/main-page/get-message?address=${address}&prompt=${prompt}`
+    );
+    return data;
+  };
+
   mine = async ({
     address,
     prompt,

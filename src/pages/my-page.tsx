@@ -4,10 +4,17 @@ import tw from "twin.macro";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { myGenImages } from "../dummy/images";
+import { useMyQuery } from "../hooks/query/useMYQuery";
+import { useWallet } from "@txnlab/use-wallet";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyPage = () => {
+  const { activeAddress, providers } = useWallet();
+  const { useGetImgByAddress } = useMyQuery();
+
+  const { data: myData } = useGetImgByAddress(activeAddress || "") || {};
+
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";

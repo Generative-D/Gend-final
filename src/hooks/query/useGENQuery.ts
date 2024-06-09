@@ -1,9 +1,7 @@
 import {
   UseMutationOptions,
-  useInfiniteQuery,
   useMutation,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query";
 import { genRepository } from "../repositiry/GENRepository";
 
@@ -92,6 +90,20 @@ export const useGenQuery = () => {
       queryFn: () => genRepository.getUserAi(params),
     });
   };
+
+  const useMessage = ({
+    address,
+    prompt,
+  }: {
+    address: string;
+    prompt: string;
+  }) => {
+    return useQuery({
+      queryKey: ["message", address, prompt],
+      queryFn: () => genRepository.getMessage({ address, prompt }),
+    });
+  };
+
   const useMine = (
     options?: Omit<
       UseMutationOptions<
@@ -130,5 +142,6 @@ export const useGenQuery = () => {
     useApplyStats,
     useGetUserAi,
     useMine,
+    useMessage,
   };
 };

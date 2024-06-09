@@ -16,7 +16,15 @@ export const useMarketQuery = () => {
     });
   };
 
+  const useGetAiList = () => {
+    return useQuery({
+      queryKey: ["ai-list"],
+      queryFn: marketRepository.getAiList,
+    });
+  };
+
   return {
     useGetImageList,
+    useGetAiList,
   };
 };

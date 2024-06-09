@@ -33,7 +33,7 @@ const CreatureModel = ({
   );
 };
 
-const MarketCreature = ({ id }: { id: string }) => {
+const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
   const { scene } = useGLTF("src/public/models/creature.glb") as {
     scene: THREE.Group;
   };
@@ -72,6 +72,14 @@ const MarketCreature = ({ id }: { id: string }) => {
           <OrbitControls />
         </Suspense>
       </Canvas>
+      <div>
+        {Object.entries(stats).map(([key, value]) => (
+          <div key={key}>
+            <span>{key} : </span>
+            <span>{value}</span>
+          </div>
+        ))}
+      </div>
     </Wrapper>
   );
 };

@@ -39,8 +39,12 @@ const Gen = () => {
     setPromptValue(e.target.value);
   };
 
-  const { useCreateImageByPrompt, useCreateImageWithoutPrompt, useGetUserAi } =
-    useGenQuery();
+  const {
+    useCreateImageByPrompt,
+    useCreateImageWithoutPrompt,
+    useGetUserAi,
+    useMessage,
+  } = useGenQuery();
 
   const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
   console.log(userAiData?.ai_stats.basic);

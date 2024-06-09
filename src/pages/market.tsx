@@ -5,9 +5,10 @@ import { useMarketQuery } from "../hooks/query/useMARKETQuery";
 import Loading from "../components/loading";
 
 const Market = () => {
-  const { useGetImageList } = useMarketQuery();
+  const { useGetImageList, useGetAiList } = useMarketQuery();
 
   const { data: imageList } = useGetImageList();
+  const { data: aiList } = useGetAiList();
 
   console.log(imageList);
 
@@ -20,9 +21,13 @@ const Market = () => {
         <CreaturesTitle>Other Creatures</CreaturesTitle>
         <ErrorBoundary>
           <CreaturesBox>
-            <MarketCreature key="unique-key1" id="unique-key1" />
-            <MarketCreature key="unique-key2" id="unique-key2" />
-            <MarketCreature key="unique-key3" id="unique-key3" />
+            {aiList?.data.map((item: any) => (
+              <MarketCreature
+                key={item.id}
+                id={item.id}
+                stats={item.ai_stats.basic}
+              />
+            ))}
           </CreaturesBox>
         </ErrorBoundary>
       </CreaturesWrapper>
@@ -99,7 +104,7 @@ const CreaturesTitle = tw.div`
 `;
 
 const CreaturesBox = tw.div`
-  flex items-center justify-center
+  flex items-center justify-center w-screen overflow-x-auto gap-24
 `;
 
 const ImagesWrapper = tw.div`
