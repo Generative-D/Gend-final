@@ -5,5 +5,5 @@ import { atom } from "jotai";
 export const algorandClientAtom = atom<AlgorandClient | null>(null);
 //export const listClientAtom = atom<NftMarketplaceListClient | null>(null)
 export const isSellingAtom = atom<boolean>(false);
-export const appDetailsListAtom = atom<appDetails[]>([]);
+//export const appDetailsListAtom = atom<appDetails[]>([]);
 export const healthAtom = atom<boolean>(false);
