@@ -1,4 +1,3 @@
-import React from "react";
 import Creature from "../components/my-creature";
 import tw from "twin.macro";
 import { Doughnut } from "react-chartjs-2";
