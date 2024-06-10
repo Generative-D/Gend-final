@@ -10,10 +10,11 @@ import { useWallet } from "@txnlab/use-wallet";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyPage = () => {
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress } = useWallet();
   const { useGetImgByAddress } = useMyQuery();
 
   const { data: myData } = useGetImgByAddress(activeAddress || "") || {};
+  console.log(myData);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";

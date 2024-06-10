@@ -33,6 +33,7 @@ const CreatureModel = ({
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
   const { scene } = useGLTF("src/public/models/creature.glb") as {
     scene: THREE.Group;
@@ -76,7 +77,7 @@ const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
         {Object.entries(stats).map(([key, value]) => (
           <div key={key}>
             <span>{key} : </span>
-            <span>{value}</span>
+            <span>{String(value)}</span>
           </div>
         ))}
       </div>

@@ -1,10 +1,4 @@
-import {
-  UseMutationOptions,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { marketRepository } from "../repositiry/MARKETRepository";
 

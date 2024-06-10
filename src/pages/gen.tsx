@@ -8,7 +8,7 @@ import { GenedImageStat } from "../types/image";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
 
-interface aiStats {
+interface aiStatInterface {
   active: number;
   color: string;
   emotion: number;
@@ -21,10 +21,10 @@ const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
   const [imgSrc, setImgSrc] = useState<string>("");
   const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
-  const [aiStats, setAiStats] = useState<any>(null);
+  const [aiStats, setAiStats] = useState<aiStatInterface | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress } = useWallet();
 
   const dummyImageState: GenedImageStat = {
     color: "black",
@@ -51,6 +51,7 @@ const Gen = () => {
   useEffect(() => {
     if (userAiData) {
       setAiStats(userAiData.basic);
+      console.log(aiStats);
       console.log(userAiData.basic);
     } else {
       console.log("No Data");
@@ -119,15 +120,11 @@ const Gen = () => {
       return;
     }
     try {
-      console.log("activeAddress", activeAddress);
       const result = await createImageByPrompt({
         prompt: promptValue,
         address: activeAddress,
       });
-      console.log(result.datas[0].image);
       setImgSrc(result.datas[0].image);
-
-      console.log(result.datas[0].stats);
     } catch (error) {
       console.error("Error generating image:", error);
     }
@@ -139,9 +136,7 @@ const Gen = () => {
       return;
     }
     try {
-      console.log("activeAddress", activeAddress);
       const result = await createImageWithoutPrompt(activeAddress);
-      console.log(result.datas[0].image);
       setImgSrc(result.datas[0].image);
       // console.log(result.datas[0].stats);
     } catch (error) {

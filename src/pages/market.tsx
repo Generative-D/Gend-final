@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ErrorBoundary from "../components/error-boundary";
 import MarketCreature from "../components/market-creature";
 import tw from "twin.macro";
