@@ -50,7 +50,8 @@ const MyPage = () => {
           <AiStatsBox>
             <AiStatsTitle>My Creature Stats</AiStatsTitle>
             <AiStatsItem>
-              Active : {userAiData?.ai_stats.basic.active}
+              Active :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.active).toFixed(1)}
             </AiStatsItem>
             <AiStatsItem
               style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
@@ -58,15 +59,20 @@ const MyPage = () => {
               Color : {userAiData?.ai_stats.basic.color}
             </AiStatsItem>
             <AiStatsItem>
-              Emotion : {userAiData?.ai_stats.basic.emotion}
+              Emotion :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.emotion).toFixed(1)}
             </AiStatsItem>
             <AiStatsItem>
-              Intelligence : {userAiData?.ai_stats.basic.inteligence}
+              Intelligence :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.inteligence).toFixed(1)}
             </AiStatsItem>
             <AiStatsItem>
-              Sensitive : {userAiData?.ai_stats.basic.seneitive}
+              Sensitive :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.seneitive).toFixed(1)}
             </AiStatsItem>
-            <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
+            <AiStatsItem>
+              Size : {parseFloat(userAiData?.ai_stats.basic.size).toFixed(1)}
+            </AiStatsItem>
           </AiStatsBox>
         </>
       </AiWrapper>
