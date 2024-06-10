@@ -1,4 +1,4 @@
-import * as algokit from "@algorandfoundation/algokit-utils";
+//import * as algokit from "@algorandfoundation/algokit-utils";
 import { HelloWorldClient } from "./contracts/gend";
 
 export const helloNft = async (helloWorldAppClient: HelloWorldClient) => {
@@ -24,6 +24,7 @@ export const storeMyNft = async (helloWorldAppClient: HelloWorldClient) => {
     console.log(e);
   }
 };
+
 //uint64,address,pay
 // export const buyNft = async (
 //   algorand: algokit.AlgorandClient,
