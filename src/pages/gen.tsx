@@ -8,6 +8,14 @@ import { useGenQuery } from "../hooks/query/useGENQuery";
 import { GenedImageStat } from "../types/image";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
+import { useAtom } from "jotai";
+import { algorandClientAtom, helloWorldClientAtom } from "../atom";
+import { getHelloWorldClient } from "../utils/getHelloworldClient";
+import * as methods from "../method";
+import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
+import { AlgorandClient } from "@algorandfoundation/algokit-utils/types/algorand-client";
+import { HelloWorldClient } from "../contracts/gend";
+import { helloWorldAppId } from "../utils/helloWorldAppId";
 
 interface aiStatInterface {
   active: number;
@@ -24,8 +32,11 @@ const Gen = () => {
   const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
   const [aiStats, setAiStats] = useState<aiStatInterface | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [algorandClient, setAlgorandClient] = useAtom(algorandClientAtom);
+  const [helloWorldAppClient, setHelloWorldAppClient] =
+    useAtom(helloWorldClientAtom);
 
-  const { activeAddress } = useWallet();
+  const { signer, activeAddress, clients, activeAccount } = useWallet();
 
   const dummyImageState: GenedImageStat = {
     color: "black",
@@ -36,9 +47,32 @@ const Gen = () => {
     sensitive: 0.5,
   };
 
+  useEffect(() => {
+    if (activeAddress) {
+      const algodConfig = getAlgodConfigFromViteEnvironment();
+      const algorandClient = AlgorandClient.fromConfig({ algodConfig });
+      algorandClient.setDefaultSigner(signer);
+      setAlgorandClient(algorandClient);
+    }
+  }, [activeAddress]);
+
   const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromptValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (activeAddress && algorandClient) {
+      const helloWorldClient = new HelloWorldClient(
+        {
+          resolveBy: "id",
+          id: helloWorldAppId,
+          sender: { addr: activeAddress, signer },
+        },
+        algorandClient.client.algod
+      );
+      setHelloWorldAppClient(helloWorldClient);
+    }
+  }, [activeAddress, algorandClient]);
 
   const {
     useCreateImageByPrompt,
@@ -152,116 +186,149 @@ const Gen = () => {
     }
     try {
       console.log("activeAddress", activeAddress);
-      const result = await mine({
+      const result: any = await mine({
         address: activeAddress,
         prompt: promptValue,
         chain_address: "",
       });
       console.log(result);
-      setImageStats(dummyImageState);
+      setImageStats(result.contents.stats);
     } catch (error) {
       console.error("Error generating image:", error);
     }
   };
 
-  // useEffect(() => {
-  //   if (userAiData) {
-  //     setAiStats(userAiData);
-  //     console.log(aiStats);
-  //   }
-  // }, [userAiData, aiStats]);
+  const handleContractCall = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    const helloWorldClient = await getHelloWorldClient(
+      algorandClient,
+      0,
+      activeAddress,
+      signer
+    );
+
+    try {
+      await methods.storeNft(algorandClient, helloWorldClient, activeAddress);
+    } catch (error) {
+      console.error("Error storing NFT:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <Wrapper>
-      {isLoading && <Loading />}
-      <AiWrapper>
-        <Creature />
-        <AiStatsBox>
-          <AiStatsTitle>My Creature Stats</AiStatsTitle>
-          <AiStatsItem>
-            Active : {userAiData?.ai_stats.basic.active}
-          </AiStatsItem>
-          <AiStatsItem
-            style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
-          >
-            Color : {userAiData?.ai_stats.basic.color}
-          </AiStatsItem>
-          <AiStatsItem>
-            Emotion : {userAiData?.ai_stats.basic.emotion}
-          </AiStatsItem>
-          <AiStatsItem>
-            Intelligence : {userAiData?.ai_stats.basic.inteligence}
-          </AiStatsItem>
-          <AiStatsItem>
-            Sensitive : {userAiData?.ai_stats.basic.seneitive}
-          </AiStatsItem>
-          <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
-        </AiStatsBox>
-      </AiWrapper>
-      <GenerateWrapper>
-        <InputWrapper>
-          <InputBox>
-            <Input
-              type="text"
-              placeholder="Prompt"
-              value={promptValue}
-              onChange={handlePromptChange}
-            />
-            <SendButton type="submit" onClick={handleGenerateByPrompt}>
-              <IconUp color={promptValue ? "blue" : "black"} />
-            </SendButton>
-          </InputBox>
-        </InputWrapper>
-        <GenerateByNoPromptButton onClick={handleGenerateWithoutPrompt}>
-          {isLoading ? "Loading..." : "Generate without Prompt"}
-        </GenerateByNoPromptButton>
-      </GenerateWrapper>
-      {imgSrc && (
-        <MineWrapper>
-          <MineImageWrapper>
-            <Base64Image base64String={imgSrc} />
-            {imageStats && (
-              <StatsBox>
-                <StatsTitle>Stats</StatsTitle>
-                <StatsItem>
-                  <StatsLabel>Color:</StatsLabel>
-                  <StatsValue>{dummyImageState.color}</StatsValue>
-                </StatsItem>
-                <StatsItem>
-                  <StatsLabel>Size : </StatsLabel>
-                  <StatsValue>{dummyImageState.size} </StatsValue>
-                </StatsItem>
-                <StatsItem>
-                  <StatsLabel>Intelligence : </StatsLabel>
-                  <StatsValue>{dummyImageState.intelligence}</StatsValue>
-                </StatsItem>
-                <StatsItem>
-                  <StatsLabel>Active : </StatsLabel>
-                  <StatsValue>{dummyImageState.active}</StatsValue>
-                </StatsItem>
-                <StatsItem>
-                  <StatsLabel>Emotion : </StatsLabel>
-                  <StatsValue>{dummyImageState.emotion}</StatsValue>
-                </StatsItem>
-                <StatsItem>
-                  <StatsLabel>Sensitive : </StatsLabel>
-                  <StatsValue>{dummyImageState.sensitive}</StatsValue>
-                </StatsItem>
-              </StatsBox>
-            )}
-          </MineImageWrapper>
-          <MineButtonWrapper>
-            {!imageStats && <MineButton onClick={handleMine}>Mine</MineButton>}
-            {imageStats && (
-              <ApplyButton onClick={handleApply}>Apply</ApplyButton>
-            )}
-            {imageStats && (
-              <ResetButton onClick={handleReset}>Reset</ResetButton>
-            )}
-          </MineButtonWrapper>
-        </MineWrapper>
-      )}
-    </Wrapper>
+    <>
+      <Wrapper>
+        {isLoading && <Loading />}
+        <button onClick={handleContractCall}>Call Contract</button>
+        <AiWrapper>
+          <Creature />
+          <AiStatsBox>
+            <AiStatsTitle>My Creature Stats</AiStatsTitle>
+            <AiStatsItem>
+              Active : {userAiData?.ai_stats.basic.active}
+            </AiStatsItem>
+            <AiStatsItem
+              style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+            >
+              Color : {userAiData?.ai_stats.basic.color}
+            </AiStatsItem>
+            <AiStatsItem>
+              Emotion : {userAiData?.ai_stats.basic.emotion}
+            </AiStatsItem>
+            <AiStatsItem>
+              Intelligence : {userAiData?.ai_stats.basic.inteligence}
+            </AiStatsItem>
+            <AiStatsItem>
+              Sensitive : {userAiData?.ai_stats.basic.seneitive}
+            </AiStatsItem>
+            <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
+          </AiStatsBox>
+        </AiWrapper>
+        <GenerateWrapper>
+          <InputWrapper>
+            <InputBox>
+              <Input
+                type="text"
+                placeholder="Prompt"
+                value={promptValue}
+                onChange={handlePromptChange}
+              />
+              <SendButton type="submit" onClick={handleGenerateByPrompt}>
+                <IconUp color={promptValue ? "blue" : "black"} />
+              </SendButton>
+            </InputBox>
+          </InputWrapper>
+          <GenerateByNoPromptButton onClick={handleGenerateWithoutPrompt}>
+            {isLoading ? "Loading..." : "Generate without Prompt"}
+          </GenerateByNoPromptButton>
+        </GenerateWrapper>
+        {imgSrc && (
+          <MineWrapper>
+            <MineImageWrapper>
+              <Base64Image base64String={imgSrc} />
+              {imageStats && (
+                <StatsBox>
+                  <StatsTitle>Stats</StatsTitle>
+                  <StatsItem>
+                    <StatsLabel>Color:</StatsLabel>
+                    <StatsValue>{dummyImageState.color}</StatsValue>
+                  </StatsItem>
+                  <StatsItem>
+                    <StatsLabel>Size : </StatsLabel>
+                    <StatsValue>{dummyImageState.size} </StatsValue>
+                  </StatsItem>
+                  <StatsItem>
+                    <StatsLabel>Intelligence : </StatsLabel>
+                    <StatsValue>{dummyImageState.intelligence}</StatsValue>
+                  </StatsItem>
+                  <StatsItem>
+                    <StatsLabel>Active : </StatsLabel>
+                    <StatsValue>{dummyImageState.active}</StatsValue>
+                  </StatsItem>
+                  <StatsItem>
+                    <StatsLabel>Emotion : </StatsLabel>
+                    <StatsValue>{dummyImageState.emotion}</StatsValue>
+                  </StatsItem>
+                  <StatsItem>
+                    <StatsLabel>Sensitive : </StatsLabel>
+                    <StatsValue>{dummyImageState.sensitive}</StatsValue>
+                  </StatsItem>
+                </StatsBox>
+              )}
+            </MineImageWrapper>
+            <MineButtonWrapper>
+              {!imageStats && (
+                <MineButton onClick={handleMine}>Mine</MineButton>
+              )}
+              {imageStats && (
+                <ApplyButton onClick={handleApply}>Apply</ApplyButton>
+              )}
+              {imageStats && (
+                <ResetButton onClick={handleReset}>Reset</ResetButton>
+              )}
+            </MineButtonWrapper>
+          </MineWrapper>
+        )}
+      </Wrapper>
+    </>
   );
 };
 
