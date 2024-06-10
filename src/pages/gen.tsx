@@ -5,7 +5,6 @@ import tw from "twin.macro";
 import { IconUp } from "../components/icon";
 import { useEffect, useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
-import { GenedImageStat } from "../types/image";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
 import { useAtom } from "jotai";
@@ -29,7 +28,7 @@ interface aiStatInterface {
 const Gen = () => {
   const [promptValue, setPromptValue] = useState<string>("");
   const [imgSrc, setImgSrc] = useState<string>("");
-  const [imageStats, setImageStats] = useState<GenedImageStat | null>(null);
+  const [imageStats, setImageStats] = useState<any>(null);
   const [aiStats, setAiStats] = useState<aiStatInterface | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [algorandClient, setAlgorandClient] = useAtom(algorandClientAtom);
@@ -37,15 +36,6 @@ const Gen = () => {
     useAtom(helloWorldClientAtom);
 
   const { signer, activeAddress, clients, activeAccount } = useWallet();
-
-  const dummyImageState: GenedImageStat = {
-    color: "black",
-    size: 100,
-    intelligence: 0.5,
-    active: 0.5,
-    emotion: 0.5,
-    sensitive: 0.5,
-  };
 
   useEffect(() => {
     if (activeAddress) {
@@ -219,7 +209,7 @@ const Gen = () => {
       const result: any = await mine({
         address: activeAddress,
         prompt: promptValue,
-        chain_address: "",
+        chain_address: "test1_nft",
       });
       console.log(result);
       setImageStats(result.contents.stats);
@@ -333,27 +323,33 @@ const Gen = () => {
                   <StatsTitle>Stats</StatsTitle>
                   <StatsItem>
                     <StatsLabel>Color:</StatsLabel>
-                    <StatsValue>{dummyImageState.color}</StatsValue>
+                    <StatsValue
+                      style={{
+                        backgroundColor: imageStats.color,
+                      }}
+                    >
+                      {imageStats.color}
+                    </StatsValue>
                   </StatsItem>
                   <StatsItem>
                     <StatsLabel>Size : </StatsLabel>
-                    <StatsValue>{dummyImageState.size} </StatsValue>
+                    <StatsValue>{imageStats.size} </StatsValue>
                   </StatsItem>
                   <StatsItem>
                     <StatsLabel>Intelligence : </StatsLabel>
-                    <StatsValue>{dummyImageState.intelligence}</StatsValue>
+                    <StatsValue>{imageStats.inteligence}</StatsValue>
                   </StatsItem>
                   <StatsItem>
                     <StatsLabel>Active : </StatsLabel>
-                    <StatsValue>{dummyImageState.active}</StatsValue>
+                    <StatsValue>{imageStats.active}</StatsValue>
                   </StatsItem>
                   <StatsItem>
                     <StatsLabel>Emotion : </StatsLabel>
-                    <StatsValue>{dummyImageState.emotion}</StatsValue>
+                    <StatsValue>{imageStats.emotion}</StatsValue>
                   </StatsItem>
                   <StatsItem>
                     <StatsLabel>Sensitive : </StatsLabel>
-                    <StatsValue>{dummyImageState.sensitive}</StatsValue>
+                    <StatsValue>{imageStats.seneitive}</StatsValue>
                   </StatsItem>
                 </StatsBox>
               )}
