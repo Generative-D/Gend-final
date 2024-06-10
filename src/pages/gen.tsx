@@ -162,6 +162,7 @@ const Gen = () => {
       console.error("Error generating image:", error);
     } finally {
       handleReset();
+      alert("Apply Success!");
     }
   };
 
@@ -219,7 +220,7 @@ const Gen = () => {
     }
     try {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // 5초 대기
+      await callHelloContract();
 
       const randomChainAddress = getContractAddress(10);
       setChainAddress(randomChainAddress);
@@ -237,7 +238,7 @@ const Gen = () => {
     }
   };
 
-  const handleContractCall = async () => {
+  const callHelloContract = async () => {
     setIsLoading(true);
 
     if (!signer || !activeAddress || !clients || !activeAccount) {
@@ -257,7 +258,6 @@ const Gen = () => {
 
     const helloWorldClient = await getHelloWorldClient(
       algorandClient,
-
       activeAddress,
       signer
     );
@@ -276,7 +276,7 @@ const Gen = () => {
     <>
       <Wrapper>
         {isLoading && <Loading />}
-        <button onClick={handleContractCall}>Call Contract</button>
+
         <AiWrapper>
           {userAiData && (
             <>
