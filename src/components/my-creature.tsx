@@ -35,7 +35,8 @@ const CreatureModel = ({
 };
 
 const Creature = () => {
-  const gltf = useGLTF("src/public/models/creature.glb");
+  const url = "src/public/models/creature.glb";
+  const gltf = useGLTF(url);
   const [scene, setScene] = useState<THREE.Group | null>(null);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const [speech, setSpeech] = useState<string>("");
