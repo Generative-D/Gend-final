@@ -105,7 +105,7 @@ const CreaturesTitle = tw.div`
 `;
 
 const CreaturesBox = tw.div`
-  flex items-center justify-center w-screen overflow-x-auto gap-24
+  flex items-center w-screen overflow-x-auto gap-24
 `;
 
 const ImagesWrapper = tw.div`
