@@ -25,18 +25,18 @@ export const storeMyNft = async (helloWorldAppClient: HelloWorldClient) => {
   }
 };
 //uint64,address,pay
-export const buyNft = async (
-  algorand: algokit.AlgorandClient,
-  helloWorldAppClient: HelloWorldClient,
-  sender: string,
-  appAddress: string
-) => {
-  // const buyerTxn = await algorand.transactions.payment({
-  //   sender,
-  //   receiver: appAddress,
-  //   amount :algokit.microAlgos(Number(1)),
-  // });
-  // try{
-  //   //const ass
-  // }
-};
+// export const buyNft = async (
+//   algorand: algokit.AlgorandClient,
+//   helloWorldAppClient: HelloWorldClient,
+//   sender: string,
+//   appAddress: string
+// ) => {
+// const buyerTxn = await algorand.transactions.payment({
+//   sender,
+//   receiver: appAddress,
+//   amount :algokit.microAlgos(Number(1)),
+// });
+// try{
+//   //const ass
+// }
+//};
