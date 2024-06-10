@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Creature from "../components/my-creature";
 import tw from "twin.macro";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { myGenImages } from "../dummy/images";
 import { useMyQuery } from "../hooks/query/useMYQuery";
 import { useWallet } from "@txnlab/use-wallet";
 import { useGenQuery } from "../hooks/query/useGENQuery";
@@ -14,9 +14,9 @@ const MyPage = () => {
   const { useGetImgByAddress } = useMyQuery();
   const { useGetUserAi } = useGenQuery();
 
-  const { data: myData } = useGetImgByAddress(activeAddress || "") || {};
+  const { data: myNftList } = useGetImgByAddress(activeAddress || "") || {};
   const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
-  console.log(myData);
+  console.log(myNftList);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -26,6 +26,8 @@ const MyPage = () => {
     }
     return color;
   };
+
+  if (!activeAddress) return <Title>Please Log in First</Title>;
 
   return (
     <Wrapper>
@@ -67,29 +69,30 @@ const MyPage = () => {
       <ImagesWrapper>
         <Title>My Images</Title>
         <ImagesContaimer>
-          {myGenImages.map((image) => (
+          {myNftList?.data.map((item: any) => (
             <ImageBox>
               <InfoBox>
-                <Image key={image.id} src={image.src} />
+                <Base64Image base64String={item.image} />
                 <StatBox>
-                  {Object.entries(image.stats).map(([key, value]) => (
+                  {Object.entries(item.stats).map(([key, value]) => (
                     <Stat key={key}>
                       <StatTitle>{key} : </StatTitle>
-                      <StatValue>{value}</StatValue>
+                      <StatValue>{String(value)}</StatValue>
                     </Stat>
                   ))}
                 </StatBox>
               </InfoBox>
               <PriceBox>
-                {image.priceRatio ? (
+                {item.ownerships ? (
                   <>
                     <Doughnut
                       data={{
+                        // labels: Object.keys(item.ownerships),
                         datasets: [
                           {
-                            data: image.priceRatio,
-                            backgroundColor: image.priceRatio.map(() =>
-                              getRandomColor()
+                            data: Object.values(item.ownerships),
+                            backgroundColor: Object.values(item.ownerships).map(
+                              () => getRandomColor()
                             ),
                           },
                         ],
@@ -106,6 +109,17 @@ const MyPage = () => {
         </ImagesContaimer>
       </ImagesWrapper>
     </Wrapper>
+  );
+};
+
+const Base64Image = ({ base64String }: { base64String: string }) => {
+  return (
+    <img
+      src={`data:image/png;base64,${base64String}`}
+      alt="Base64 Image"
+      width="300"
+      height="300"
+    />
   );
 };
 
@@ -164,10 +178,6 @@ const PriceTitle = tw.div`
 
 const ImageBox = tw.div`
   flex gap-16 box-border
-`;
-
-const Image = tw.img`
-  w-200
 `;
 
 const StatBox = tw.div`

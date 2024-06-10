@@ -11,6 +11,18 @@ class MARKETRepository {
     return data;
   };
 
+  getNftByAddress = async (address: string) => {
+    const { data } = await genInstance.get(
+      `/market-page/get-img-by-address-only-nft?address=${address}`,
+      {
+        params: {
+          address,
+        },
+      }
+    );
+    return data;
+  };
+
   buyImg = async ({
     prompt,
     chain_address,
