@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Creature from "../components/my-creature";
 
 import tw from "twin.macro";
@@ -120,7 +121,7 @@ const Gen = () => {
       return;
     }
     try {
-      const result = await createImageByPrompt({
+      const result: any = await createImageByPrompt({
         prompt: promptValue,
         address: activeAddress,
       });
@@ -136,7 +137,7 @@ const Gen = () => {
       return;
     }
     try {
-      const result = await createImageWithoutPrompt(activeAddress);
+      const result: any = await createImageWithoutPrompt(activeAddress);
       setImgSrc(result.datas[0].image);
       // console.log(result.datas[0].stats);
     } catch (error) {
