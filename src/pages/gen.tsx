@@ -239,28 +239,35 @@ const Gen = () => {
         {isLoading && <Loading />}
         <button onClick={handleContractCall}>Call Contract</button>
         <AiWrapper>
-          <Creature />
-          <AiStatsBox>
-            <AiStatsTitle>My Creature Stats</AiStatsTitle>
-            <AiStatsItem>
-              Active : {userAiData?.ai_stats.basic.active}
-            </AiStatsItem>
-            <AiStatsItem
-              style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
-            >
-              Color : {userAiData?.ai_stats.basic.color}
-            </AiStatsItem>
-            <AiStatsItem>
-              Emotion : {userAiData?.ai_stats.basic.emotion}
-            </AiStatsItem>
-            <AiStatsItem>
-              Intelligence : {userAiData?.ai_stats.basic.inteligence}
-            </AiStatsItem>
-            <AiStatsItem>
-              Sensitive : {userAiData?.ai_stats.basic.seneitive}
-            </AiStatsItem>
-            <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
-          </AiStatsBox>
+          {userAiData && (
+            <>
+              <Creature />
+
+              <AiStatsBox>
+                <AiStatsTitle>My Creature Stats</AiStatsTitle>
+                <AiStatsItem>
+                  Active : {userAiData?.ai_stats.basic.active}
+                </AiStatsItem>
+                <AiStatsItem
+                  style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+                >
+                  Color : {userAiData?.ai_stats.basic.color}
+                </AiStatsItem>
+                <AiStatsItem>
+                  Emotion : {userAiData?.ai_stats.basic.emotion}
+                </AiStatsItem>
+                <AiStatsItem>
+                  Intelligence : {userAiData?.ai_stats.basic.inteligence}
+                </AiStatsItem>
+                <AiStatsItem>
+                  Sensitive : {userAiData?.ai_stats.basic.seneitive}
+                </AiStatsItem>
+                <AiStatsItem>
+                  Size : {userAiData?.ai_stats.basic.size}
+                </AiStatsItem>
+              </AiStatsBox>
+            </>
+          )}
         </AiWrapper>
         <GenerateWrapper>
           <InputWrapper>

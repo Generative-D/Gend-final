@@ -35,7 +35,7 @@ const CreatureModel = ({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
-  const { scene } = useGLTF("src/public/models/creature.glb") as {
+  const { scene } = useGLTF("/models/creature.glb") as {
     scene: THREE.Group;
   };
   const [localScene, setLocalScene] = useState<THREE.Group | null>(null);
