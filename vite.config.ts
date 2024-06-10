@@ -5,7 +5,6 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { compression } from "vite-plugin-compression2";
 import { splitVendorChunkPlugin } from "vite";
-import eslintPlugin from "vite-plugin-eslint";
 
 export default defineConfig({
   define: {
@@ -47,9 +46,6 @@ export default defineConfig({
     compression({
       include: [/\.js$/, /\.css$/],
       threshold: 1400,
-    }),
-    eslintPlugin({
-      failOnError: false,
     }),
   ],
   test: {
