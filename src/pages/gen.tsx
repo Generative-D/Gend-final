@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Creature from "../components/my-creature";
-
 import tw from "twin.macro";
 import { IconUp } from "../components/icon";
 import { useEffect, useState } from "react";
@@ -34,6 +33,8 @@ const Gen = () => {
   const [algorandClient, setAlgorandClient] = useAtom(algorandClientAtom);
   const [helloWorldAppClient, setHelloWorldAppClient] =
     useAtom(helloWorldClientAtom);
+
+  const [chainAddress, setChainAddress] = useState<string>("");
 
   const { signer, activeAddress, clients, activeAccount } = useWallet();
 
@@ -154,7 +155,7 @@ const Gen = () => {
     try {
       await applyStats({
         address: activeAddress,
-        chain_address: "test1_nft",
+        chain_address: chainAddress, //"test1_nft"
       });
       refetch(); // Apply 성공 후 데이터 갱신
     } catch (error) {
@@ -199,22 +200,40 @@ const Gen = () => {
     }
   };
 
+  // 컨트랙트대신 집어넣을 가짜 함수
+  const getContractAddress = (length: number) => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
   const handleMine = async () => {
     if (!activeAddress) {
       alert("Wallet is required");
       return;
     }
     try {
-      console.log("activeAddress", activeAddress);
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // 5초 대기
+
+      const randomChainAddress = getContractAddress(10);
+      setChainAddress(randomChainAddress);
       const result: any = await mine({
         address: activeAddress,
         prompt: promptValue,
-        chain_address: "test1_nft",
+        chain_address: randomChainAddress,
       });
       console.log(result);
       setImageStats(result.contents.stats);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error generating image:", error);
+      setIsLoading(false);
     }
   };
 
