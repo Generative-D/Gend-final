@@ -21,6 +21,13 @@ export const useMarketQuery = () => {
     });
   };
 
+  const useGetNftList = () => {
+    return useQuery({
+      queryKey: ["nft-list"],
+      queryFn: marketRepository.getNftList,
+    });
+  };
+
   const useBuyImg = (
     options?: Omit<
       UseMutationOptions<
@@ -50,6 +57,7 @@ export const useMarketQuery = () => {
 
   return {
     useGetImageList,
+    useGetNftList,
     useGetAiList,
     useBuyImg,
   };

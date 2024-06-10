@@ -27,7 +27,7 @@ const MyPage = () => {
     return color;
   };
 
-  if (!activeAddress) return <Title>Please Log in First</Title>;
+  if (!activeAddress) return null;
 
   return (
     <Wrapper>

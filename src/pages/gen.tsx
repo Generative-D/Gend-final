@@ -79,9 +79,10 @@ const Gen = () => {
     useCreateImageWithoutPrompt,
     useGetUserAi,
     useMine,
+    useApplyStats,
   } = useGenQuery();
 
-  const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
+  const { data: userAiData, refetch } = useGetUserAi(activeAddress || "") || {};
   console.log(userAiData?.ai_stats.basic);
   useEffect(() => {
     if (userAiData) {
@@ -140,8 +141,37 @@ const Gen = () => {
     },
   });
 
-  const handleApply = () => {
-    alert("Apply");
+  const { mutateAsync: applyStats } = useApplyStats({
+    onSuccess: (data) => {
+      console.log(data);
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      console.log(error);
+      setIsLoading(false);
+    },
+    onMutate: (variables) => {
+      console.log(variables);
+      setIsLoading(true);
+    },
+  });
+
+  const handleApply = async () => {
+    if (!activeAddress) {
+      alert("Wallet is required");
+      return;
+    }
+    try {
+      await applyStats({
+        address: activeAddress,
+        chain_address: "test1_nft",
+      });
+      refetch(); // Apply 성공 후 데이터 갱신
+    } catch (error) {
+      console.error("Error generating image:", error);
+    } finally {
+      handleReset();
+    }
   };
 
   const handleReset = () => {
@@ -246,7 +276,8 @@ const Gen = () => {
               <AiStatsBox>
                 <AiStatsTitle>My Creature Stats</AiStatsTitle>
                 <AiStatsItem>
-                  Active : {userAiData?.ai_stats.basic.active}
+                  Active :{" "}
+                  {parseFloat(userAiData?.ai_stats.basic.active).toFixed(1)}
                 </AiStatsItem>
                 <AiStatsItem
                   style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
@@ -254,16 +285,22 @@ const Gen = () => {
                   Color : {userAiData?.ai_stats.basic.color}
                 </AiStatsItem>
                 <AiStatsItem>
-                  Emotion : {userAiData?.ai_stats.basic.emotion}
+                  Emotion :{" "}
+                  {parseFloat(userAiData?.ai_stats.basic.emotion).toFixed(1)}
                 </AiStatsItem>
                 <AiStatsItem>
-                  Intelligence : {userAiData?.ai_stats.basic.inteligence}
+                  Intelligence :{" "}
+                  {parseFloat(userAiData?.ai_stats.basic.inteligence).toFixed(
+                    1
+                  )}
                 </AiStatsItem>
                 <AiStatsItem>
-                  Sensitive : {userAiData?.ai_stats.basic.seneitive}
+                  Sensitive :{" "}
+                  {parseFloat(userAiData?.ai_stats.basic.seneitive).toFixed(1)}
                 </AiStatsItem>
                 <AiStatsItem>
-                  Size : {userAiData?.ai_stats.basic.size}
+                  Size :{" "}
+                  {parseFloat(userAiData?.ai_stats.basic.size).toFixed(1)}
                 </AiStatsItem>
               </AiStatsBox>
             </>

@@ -8,11 +8,11 @@ import { useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
 
 const Market = () => {
-  const { useGetImageList, useGetAiList, useBuyImg } = useMarketQuery();
+  const { useGetNftList, useGetAiList, useBuyImg } = useMarketQuery();
   const { activeAddress } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: imageList } = useGetImageList();
+  const { data: imageList } = useGetNftList();
   const { data: aiList } = useGetAiList();
   const { mutate: buyImg } = useBuyImg({
     onMutate: () => {
