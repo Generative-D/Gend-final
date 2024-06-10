@@ -7,6 +7,8 @@ import tw from "twin.macro";
 import lottie from "lottie-web/build/player/lottie_light";
 import heart from "../assets/heart.json";
 import styled from "@emotion/styled";
+import { useGenQuery } from "../hooks/query/useGENQuery";
+import { useWallet } from "@txnlab/use-wallet";
 
 const CreatureModel = ({
   onClick,
@@ -39,6 +41,11 @@ const Creature = () => {
   const [scene, setScene] = useState<THREE.Group | null>(null);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const [speech, setSpeech] = useState<string>("");
+  const { useMessageByClick } = useGenQuery();
+  const { activeAddress } = useWallet();
+
+  const { data: message, refetch } =
+    useMessageByClick({ address: activeAddress || "" }) || {};
 
   const warpperRef = useRef<HTMLDivElement>(null);
 
@@ -71,7 +78,8 @@ const Creature = () => {
 
   const handleClick = () => {
     setShowLottie(true);
-    setSpeech("Hello, I'm your AI creature!");
+    refetch();
+    setSpeech(message?.generated_text);
   };
 
   return (

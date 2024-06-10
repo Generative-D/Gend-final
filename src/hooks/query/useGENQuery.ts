@@ -104,6 +104,13 @@ export const useGenQuery = () => {
     });
   };
 
+  const useMessageByClick = ({ address }: { address: string }) => {
+    return useQuery({
+      queryKey: ["messageByClick", address],
+      queryFn: () => genRepository.getMessageByClick({ address }),
+    });
+  };
+
   const useMine = (
     options?: Omit<
       UseMutationOptions<
@@ -138,10 +145,10 @@ export const useGenQuery = () => {
   return {
     useCreateImageByPrompt,
     useCreateImageWithoutPrompt,
-
     useApplyStats,
     useGetUserAi,
     useMine,
     useMessage,
+    useMessageByClick,
   };
 };
