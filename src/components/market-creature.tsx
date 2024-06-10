@@ -77,7 +77,9 @@ const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
         {Object.entries(stats).map(([key, value]) => (
           <div key={key}>
             <span>{key} : </span>
-            <span>{String(value)}</span>
+            <span>
+              {typeof value === "number" ? value.toFixed(1) : String(value)}
+            </span>
           </div>
         ))}
       </div>

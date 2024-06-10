@@ -1,36 +1,42 @@
 import * as algokit from "@algorandfoundation/algokit-utils";
 import { HelloWorldClient } from "./contracts/gend";
-import { helloWorldAppId } from "./utils/helloWorldAppId";
 
-export const storeNft = async (
+export const helloNft = async (helloWorldAppClient: HelloWorldClient) => {
+  const name = "NFT";
+  try {
+    const result = await helloWorldAppClient.hello({
+      name,
+    });
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+//uint64,address[],uint64,string,string,string,string,string[],string
+export const storeMyNft = async (helloWorldAppClient: HelloWorldClient) => {
+  const name = "NFT";
+  try {
+    const result = await helloWorldAppClient.hello({
+      name,
+    });
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+//uint64,address,pay
+export const buyNft = async (
   algorand: algokit.AlgorandClient,
   helloWorldAppClient: HelloWorldClient,
-  sender: string
-  //   unitaryPrice: bigint,
-  //   quantity: bigint,
-  //   assetBeingSold: bigint,
+  sender: string,
+  appAddress: string
 ) => {
-  const storeResult = await helloWorldAppClient.create.bare();
-
-  //   const mbrTxn = await algorand.transactions.payment({
-  //     sender,
-  //     receiver: storeResult.appAddress,
-  //     amount: algokit.algos(0.1 + 0.1),
-  //   });
-
-  const name = "NFT";
-
-  await helloWorldAppClient.hello({
-    name,
-  });
-
-  await algorand
-    .newGroup()
-    .addMethodCall({
-      sender: sender,
-      appId: BigInt(helloWorldAppId),
-      method: helloWorldAppClient.appClient.getABIMethod("hello")!,
-      args: [storeResult.appId],
-    })
-    .execute();
+  // const buyerTxn = await algorand.transactions.payment({
+  //   sender,
+  //   receiver: appAddress,
+  //   amount :algokit.microAlgos(Number(1)),
+  // });
+  // try{
+  //   //const ass
+  // }
 };

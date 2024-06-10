@@ -238,13 +238,13 @@ const Gen = () => {
 
     const helloWorldClient = await getHelloWorldClient(
       algorandClient,
-      0,
+
       activeAddress,
       signer
     );
 
     try {
-      await methods.storeNft(algorandClient, helloWorldClient, activeAddress);
+      await methods.helloNft(helloWorldClient);
     } catch (error) {
       console.error("Error storing NFT:", error);
       setIsLoading(false);
