@@ -5,7 +5,7 @@ import { myRepository } from "../repositiry/MYRepository";
 export const useMyQuery = () => {
   const useGetImgByAddress = (address: string) => {
     return useQuery({
-      queryKey: ["image-list"],
+      queryKey: ["my-nft-list"],
       queryFn: () => myRepository.getImgByAddress(address),
     });
   };

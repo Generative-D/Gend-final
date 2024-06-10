@@ -6,6 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useMyQuery } from "../hooks/query/useMYQuery";
 import { useWallet } from "@txnlab/use-wallet";
 import { useGenQuery } from "../hooks/query/useGENQuery";
+import { useEffect } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -14,9 +15,16 @@ const MyPage = () => {
   const { useGetImgByAddress } = useMyQuery();
   const { useGetUserAi } = useGenQuery();
 
-  const { data: myNftList } = useGetImgByAddress(activeAddress || "") || {};
   const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
+
+  const { data: myNftList, refetch: myNftListRefetch } =
+    useGetImgByAddress(activeAddress || "") || {};
+
   console.log(myNftList);
+
+  useEffect(() => {
+    myNftListRefetch();
+  }, [activeAddress]);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -36,41 +44,37 @@ const MyPage = () => {
       </InfoWrapper>
 
       <AiWrapper>
-        {userAiData && (
-          <>
-            <Creature />
+        <>
+          <Creature />
 
-            <AiStatsBox>
-              <AiStatsTitle>My Creature Stats</AiStatsTitle>
-              <AiStatsItem>
-                Active : {userAiData?.ai_stats.basic.active}
-              </AiStatsItem>
-              <AiStatsItem
-                style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
-              >
-                Color : {userAiData?.ai_stats.basic.color}
-              </AiStatsItem>
-              <AiStatsItem>
-                Emotion : {userAiData?.ai_stats.basic.emotion}
-              </AiStatsItem>
-              <AiStatsItem>
-                Intelligence : {userAiData?.ai_stats.basic.inteligence}
-              </AiStatsItem>
-              <AiStatsItem>
-                Sensitive : {userAiData?.ai_stats.basic.seneitive}
-              </AiStatsItem>
-              <AiStatsItem>
-                Size : {userAiData?.ai_stats.basic.size}
-              </AiStatsItem>
-            </AiStatsBox>
-          </>
-        )}
+          <AiStatsBox>
+            <AiStatsTitle>My Creature Stats</AiStatsTitle>
+            <AiStatsItem>
+              Active : {userAiData?.ai_stats.basic.active}
+            </AiStatsItem>
+            <AiStatsItem
+              style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+            >
+              Color : {userAiData?.ai_stats.basic.color}
+            </AiStatsItem>
+            <AiStatsItem>
+              Emotion : {userAiData?.ai_stats.basic.emotion}
+            </AiStatsItem>
+            <AiStatsItem>
+              Intelligence : {userAiData?.ai_stats.basic.inteligence}
+            </AiStatsItem>
+            <AiStatsItem>
+              Sensitive : {userAiData?.ai_stats.basic.seneitive}
+            </AiStatsItem>
+            <AiStatsItem>Size : {userAiData?.ai_stats.basic.size}</AiStatsItem>
+          </AiStatsBox>
+        </>
       </AiWrapper>
       <ImagesWrapper>
         <Title>My Images</Title>
         <ImagesContaimer>
-          {myNftList?.data.map((item: any) => (
-            <ImageBox>
+          {myNftList?.data?.map((item: any) => (
+            <ImageBox key={item.id}>
               <InfoBox>
                 <Base64Image base64String={item.image} />
                 <StatBox>
