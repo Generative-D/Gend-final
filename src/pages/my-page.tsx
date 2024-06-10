@@ -5,14 +5,17 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { myGenImages } from "../dummy/images";
 import { useMyQuery } from "../hooks/query/useMYQuery";
 import { useWallet } from "@txnlab/use-wallet";
+import { useGenQuery } from "../hooks/query/useGENQuery";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyPage = () => {
   const { activeAddress } = useWallet();
   const { useGetImgByAddress } = useMyQuery();
+  const { useGetUserAi } = useGenQuery();
 
   const { data: myData } = useGetImgByAddress(activeAddress || "") || {};
+  const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
   console.log(myData);
 
   const getRandomColor = () => {
@@ -30,7 +33,37 @@ const MyPage = () => {
         <Title>My Page</Title>
       </InfoWrapper>
 
-      <Creature />
+      <AiWrapper>
+        {userAiData && (
+          <>
+            <Creature />
+
+            <AiStatsBox>
+              <AiStatsTitle>My Creature Stats</AiStatsTitle>
+              <AiStatsItem>
+                Active : {userAiData?.ai_stats.basic.active}
+              </AiStatsItem>
+              <AiStatsItem
+                style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+              >
+                Color : {userAiData?.ai_stats.basic.color}
+              </AiStatsItem>
+              <AiStatsItem>
+                Emotion : {userAiData?.ai_stats.basic.emotion}
+              </AiStatsItem>
+              <AiStatsItem>
+                Intelligence : {userAiData?.ai_stats.basic.inteligence}
+              </AiStatsItem>
+              <AiStatsItem>
+                Sensitive : {userAiData?.ai_stats.basic.seneitive}
+              </AiStatsItem>
+              <AiStatsItem>
+                Size : {userAiData?.ai_stats.basic.size}
+              </AiStatsItem>
+            </AiStatsBox>
+          </>
+        )}
+      </AiWrapper>
       <ImagesWrapper>
         <Title>My Images</Title>
         <ImagesContaimer>
@@ -80,6 +113,22 @@ const Wrapper = tw.div`
   flex flex-col items-center
   p-12 gap-8 w-screen box-border
 
+`;
+
+const AiWrapper = tw.div`
+  flex w-screen items-center gap-48 justify-center
+`;
+
+const AiStatsBox = tw.div`
+  flex flex-col gap-8
+`;
+
+const AiStatsTitle = tw.h3`
+  font-xxl-b
+`;
+
+const AiStatsItem = tw.div`
+  font-xxl-b
 `;
 
 const InfoWrapper = tw.div`
