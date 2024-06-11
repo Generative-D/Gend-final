@@ -192,7 +192,7 @@ const Gen = () => {
     }
     try {
       setIsLoading(true);
-      await callHelloContract();
+      await callStoreMyNft();
 
       const randomChainAddress = getContractAddress(10);
       setChainAddress(randomChainAddress);
@@ -206,40 +206,6 @@ const Gen = () => {
       setIsLoading(false);
     } catch (error) {
       console.error("Error generating image:", error);
-      setIsLoading(false);
-    }
-  };
-
-  const callHelloContract = async () => {
-    setIsLoading(true);
-
-    if (!signer || !activeAddress || !clients || !activeAccount) {
-      console.error("Signer, activeAddress, clients, or activeAccount is null");
-      setIsLoading(false);
-
-      return;
-    }
-
-    if (!algorandClient || !helloWorldAppClient) {
-      console.error("AlgorandClient or HelloWorldAppClient is null");
-      console.log(algorandClient, helloWorldAppClient);
-      setIsLoading(false);
-
-      return;
-    }
-
-    const helloWorldClient = await getHelloWorldClient(
-      algorandClient,
-      activeAddress,
-      signer
-    );
-
-    try {
-      await methods.helloNft(helloWorldClient);
-    } catch (error) {
-      console.error("Error storing NFT:", error);
-      setIsLoading(false);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -271,39 +237,6 @@ const Gen = () => {
       await methods.storeMyNft(helloWorldClient, activeAddress);
     } catch (error) {
       console.error("Error storing NFT:", error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const callBuyNft = async () => {
-    setIsLoading(true);
-
-    if (!signer || !activeAddress || !clients || !activeAccount) {
-      console.error("Signer, activeAddress, clients, or activeAccount is null");
-      setIsLoading(false);
-
-      return;
-    }
-
-    if (!algorandClient || !helloWorldAppClient) {
-      console.error("AlgorandClient or HelloWorldAppClient is null");
-      console.log(algorandClient, helloWorldAppClient);
-      setIsLoading(false);
-
-      return;
-    }
-
-    const helloWorldClient = await getHelloWorldClient(
-      algorandClient,
-      activeAddress,
-      signer
-    );
-    try {
-      await methods.buyNft(algorandClient, helloWorldClient, activeAddress);
-    } catch (error) {
-      console.error("Error buying NFT:", error);
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -345,9 +278,8 @@ const Gen = () => {
     <>
       <Wrapper>
         {isLoading && <Loading />}
-        <button onClick={callHelloContract}>Call Hello Contract</button>
         <button onClick={callStoreMyNft}>Call Store My NFT</button>
-        <button onClick={callBuyNft}>Call Buy NFT</button>
+
         <AiWrapper>
           {userAiData && (
             <>
