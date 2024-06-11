@@ -6,7 +6,7 @@ import { useMarketQuery } from "../hooks/query/useMARKETQuery";
 import Loading from "../components/loading";
 import { startTransition, useEffect, useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
-import { AlgorandClient } from "@algorandfoundation/algokit-utils";
+import { AlgorandClient } from "@algorandfoundation/algokit-utils/types/algorand-client";
 import { HelloWorldClient } from "../contracts/gend";
 import { getHelloWorldClient } from "../utils/getHelloworldClient";
 import { helloWorldAppId } from "../utils/helloWorldAppId";
