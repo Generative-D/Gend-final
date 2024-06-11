@@ -5,6 +5,7 @@ import tw from "twin.macro";
 import ConnectWallet from "./connect-wallet";
 import { Provider, useWallet } from "@txnlab/use-wallet";
 import { ellipseAddress } from "../utils/string";
+import logo from "../assets/gend.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,7 +19,10 @@ const Header = () => {
     <>
       <Wrapper>
         <HeaderBox>
-          <Title>Gen D</Title>
+          <LogoBox>
+            <Logo onClick={() => navigate("/")} src={logo} />
+            <Title>Gen-D</Title>
+          </LogoBox>
 
           <LogInBox>
             {activeAddress ? (
@@ -72,9 +76,16 @@ const Header = () => {
 const Wrapper = tw.div`
   flex flex-col
   w-screen p-12 gap-8 relative box-border
-  border-solid border-x-0 border-t-0 border-green 
- 
-  
+  border-solid border-x-0 border-t-0 border-green  
+`;
+
+const Logo = tw.img`
+  w-64 h-64
+  cursor-pointer
+`;
+
+const LogoBox = tw.div`
+  flex items-center gap-8
 `;
 
 const HeaderBox = tw.div`
