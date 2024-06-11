@@ -21,13 +21,14 @@ const Loading = () => {
   return (
     <Wrapper>
       <LottieWrapper ref={wrapperRef} />
+      <div tw="text-white text-2xl absolute bottom-10">Loading...</div>
     </Wrapper>
   );
 };
 
 const Wrapper = tw.div`
-  absolute flex min-h-screen w-full h-full absolute-center bg-black bg-opacity-50
-  z-50
+  fixed flex  w-full h-screen absolute-center bg-black bg-opacity-50
+  z-50 items-center justify-center
 `;
 
 const LottieWrapper = tw.div`

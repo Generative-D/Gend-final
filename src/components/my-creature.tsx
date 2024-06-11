@@ -7,6 +7,8 @@ import tw from "twin.macro";
 import lottie from "lottie-web/build/player/lottie_light";
 import heart from "../assets/heart.json";
 import styled from "@emotion/styled";
+import { useGenQuery } from "../hooks/query/useGENQuery";
+import { useWallet } from "@txnlab/use-wallet";
 
 const CreatureModel = ({
   onClick,
@@ -23,31 +25,40 @@ const CreatureModel = ({
   });
 
   return (
-    <group>
-      <primitive
-        object={scene}
-        onClick={onClick}
-        scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
-        // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
-      />
-    </group>
+    <Suspense fallback={<div>Loading...</div>}>
+      <group>
+        <primitive
+          object={scene}
+          onClick={onClick}
+          scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
+          // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
+        />
+      </group>
+    </Suspense>
   );
 };
 
 const Creature = () => {
-  const gltf = useGLTF("src/public/models/creature.glb");
-  const [scene, setScene] = useState<THREE.Group | null>(null);
+  const { scene } = useGLTF("/models/creature.glb") as {
+    scene: THREE.Group;
+  };
+  const [localScene, setLocalScene] = useState<THREE.Group | null>(null);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const [speech, setSpeech] = useState<string>("");
+  const { useMessageByClick } = useGenQuery();
+  const { activeAddress } = useWallet();
+
+  const { data: message, refetch } =
+    useMessageByClick({ address: activeAddress || "" }) || {};
 
   const warpperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (gltf) {
-      console.log("GLTF loaded successfully:", gltf);
-      setScene(gltf.scene);
+    if (scene) {
+      const clonedScene = scene.clone();
+      setLocalScene(clonedScene);
     }
-  }, [gltf]);
+  }, [scene]);
 
   useEffect(() => {
     if (!warpperRef.current) return;
@@ -71,7 +82,8 @@ const Creature = () => {
 
   const handleClick = () => {
     setShowLottie(true);
-    setSpeech("Hello, I'm your AI creature!");
+    refetch();
+    setSpeech(message?.generated_text);
   };
 
   return (
@@ -88,8 +100,10 @@ const Creature = () => {
       </SpeechBubbleWrapper>
       {/* )} */}
       <Canvas>
-        <Suspense fallback={null}>
-          {scene && <CreatureModel onClick={handleClick} scene={scene} />}
+        <Suspense fallback={<div>Loading...</div>}>
+          {localScene && (
+            <CreatureModel onClick={handleClick} scene={localScene} />
+          )}
           <OrbitControls />
         </Suspense>
       </Canvas>

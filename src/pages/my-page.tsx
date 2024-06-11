@@ -1,19 +1,30 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Creature from "../components/my-creature";
 import tw from "twin.macro";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { myGenImages } from "../dummy/images";
 import { useMyQuery } from "../hooks/query/useMYQuery";
 import { useWallet } from "@txnlab/use-wallet";
+import { useGenQuery } from "../hooks/query/useGENQuery";
+import { useEffect } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyPage = () => {
-  const { activeAddress, providers } = useWallet();
+  const { activeAddress } = useWallet();
   const { useGetImgByAddress } = useMyQuery();
+  const { useGetUserAi } = useGenQuery();
 
-  const { data: myData } = useGetImgByAddress(activeAddress || "") || {};
+  const { data: userAiData } = useGetUserAi(activeAddress || "") || {};
+
+  const { data: myNftList, refetch: myNftListRefetch } =
+    useGetImgByAddress(activeAddress || "") || {};
+
+  console.log(myNftList);
+
+  useEffect(() => {
+    myNftListRefetch();
+  }, [activeAddress]);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -24,39 +35,74 @@ const MyPage = () => {
     return color;
   };
 
+  if (!activeAddress) return <Title>Log In First</Title>;
+
   return (
     <Wrapper>
       <InfoWrapper>
         <Title>My Page</Title>
       </InfoWrapper>
 
-      <Creature />
+      <AiWrapper>
+        <>
+          <Creature />
+
+          <AiStatsBox>
+            <AiStatsTitle>My Creature Stats</AiStatsTitle>
+            <AiStatsItem>
+              Active :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.active).toFixed(1)}
+            </AiStatsItem>
+            <AiStatsItem
+              style={{ backgroundColor: userAiData?.ai_stats.basic.color }}
+            >
+              Color : {userAiData?.ai_stats.basic.color}
+            </AiStatsItem>
+            <AiStatsItem>
+              Emotion :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.emotion).toFixed(1)}
+            </AiStatsItem>
+            <AiStatsItem>
+              Intelligence :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.inteligence).toFixed(1)}
+            </AiStatsItem>
+            <AiStatsItem>
+              Sensitive :{" "}
+              {parseFloat(userAiData?.ai_stats.basic.seneitive).toFixed(1)}
+            </AiStatsItem>
+            <AiStatsItem>
+              Size : {parseFloat(userAiData?.ai_stats.basic.size).toFixed(1)}
+            </AiStatsItem>
+          </AiStatsBox>
+        </>
+      </AiWrapper>
       <ImagesWrapper>
         <Title>My Images</Title>
         <ImagesContaimer>
-          {myGenImages.map((image) => (
-            <ImageBox>
+          {myNftList?.data?.map((item: any) => (
+            <ImageBox key={item.id}>
               <InfoBox>
-                <Image key={image.id} src={image.src} />
+                <Base64Image base64String={item.image} />
                 <StatBox>
-                  {Object.entries(image.stats).map(([key, value]) => (
+                  {Object.entries(item.stats).map(([key, value]) => (
                     <Stat key={key}>
                       <StatTitle>{key} : </StatTitle>
-                      <StatValue>{value}</StatValue>
+                      <StatValue>{String(value)}</StatValue>
                     </Stat>
                   ))}
                 </StatBox>
               </InfoBox>
               <PriceBox>
-                {image.priceRatio ? (
+                {item.ownerships ? (
                   <>
                     <Doughnut
                       data={{
+                        // labels: Object.keys(item.ownerships),
                         datasets: [
                           {
-                            data: image.priceRatio,
-                            backgroundColor: image.priceRatio.map(() =>
-                              getRandomColor()
+                            data: Object.values(item.ownerships),
+                            backgroundColor: Object.values(item.ownerships).map(
+                              () => getRandomColor()
                             ),
                           },
                         ],
@@ -76,10 +122,37 @@ const MyPage = () => {
   );
 };
 
+const Base64Image = ({ base64String }: { base64String: string }) => {
+  return (
+    <img
+      src={`data:image/png;base64,${base64String}`}
+      alt="Base64 Image"
+      width="300"
+      height="300"
+    />
+  );
+};
+
 const Wrapper = tw.div`
   flex flex-col items-center
   p-12 gap-8 w-screen box-border
 
+`;
+
+const AiWrapper = tw.div`
+  flex w-screen items-center gap-48 justify-center
+`;
+
+const AiStatsBox = tw.div`
+  flex flex-col gap-8
+`;
+
+const AiStatsTitle = tw.h3`
+  font-xxl-b
+`;
+
+const AiStatsItem = tw.div`
+  font-xxl-b
 `;
 
 const InfoWrapper = tw.div`
@@ -115,10 +188,6 @@ const PriceTitle = tw.div`
 
 const ImageBox = tw.div`
   flex gap-16 box-border
-`;
-
-const Image = tw.img`
-  w-200
 `;
 
 const StatBox = tw.div`

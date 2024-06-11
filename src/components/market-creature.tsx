@@ -33,8 +33,9 @@ const CreatureModel = ({
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
-  const { scene } = useGLTF("src/public/models/creature.glb") as {
+  const { scene } = useGLTF("/models/creature.glb") as {
     scene: THREE.Group;
   };
   const [localScene, setLocalScene] = useState<THREE.Group | null>(null);
@@ -42,18 +43,6 @@ const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
   useEffect(() => {
     if (scene) {
       const clonedScene = scene.clone();
-      clonedScene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          const material = child.material.clone();
-          material.color = new THREE.Color(
-            Math.random(),
-            Math.random(),
-            Math.random()
-          );
-          child.material = material;
-        }
-      });
-      console.log("GLTF loaded successfully:", clonedScene);
       setLocalScene(clonedScene);
     }
   }, [scene]);
@@ -76,7 +65,9 @@ const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
         {Object.entries(stats).map(([key, value]) => (
           <div key={key}>
             <span>{key} : </span>
-            <span>{value}</span>
+            <span>
+              {typeof value === "number" ? value.toFixed(1) : String(value)}
+            </span>
           </div>
         ))}
       </div>

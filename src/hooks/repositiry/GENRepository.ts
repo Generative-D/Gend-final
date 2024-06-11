@@ -81,6 +81,16 @@ class GENRepository {
     return data;
   };
 
+  getMessageByClick = async ({ address }: { address: string }) => {
+    const { data } = await genInstance.get(
+      `/main-page/message_click_creatures?address=${address}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return data;
+  };
+
   mine = async ({
     address,
     prompt,

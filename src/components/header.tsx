@@ -38,6 +38,7 @@ const Header = () => {
 
         <NavBox>
           <NavItem
+            key="home"
             onClick={() => navigate("/")}
             onNav={window.location.pathname === "/"}
           >
@@ -45,12 +46,14 @@ const Header = () => {
           </NavItem>
 
           <NavItem
+            key="market"
             onClick={() => navigate("/market")}
             onNav={window.location.pathname === "/market"}
           >
             Market
           </NavItem>
           <NavItem
+            key="my-page"
             onClick={() => navigate("/my-page")}
             onNav={window.location.pathname === "/my-page"}
           >
