@@ -106,7 +106,7 @@ const Market = () => {
                           )
                         }
                       >
-                        Buy
+                        Buy with {(item.ownerships_num * 0.1).toFixed(1)} Algo
                       </BuyButton>
                     </ItemStat>
                   </ItemStats>

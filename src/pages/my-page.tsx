@@ -6,11 +6,13 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useMyQuery } from "../hooks/query/useMYQuery";
 import { useWallet } from "@txnlab/use-wallet";
 import { useGenQuery } from "../hooks/query/useGENQuery";
-import { useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
+import Loading from "../components/loading";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const MyPage = () => {
+  const [imageList, setImageList] = useState<any[]>([]);
   const { activeAddress } = useWallet();
   const { useGetImgByAddress } = useMyQuery();
   const { useGetUserAi } = useGenQuery();
@@ -23,8 +25,11 @@ const MyPage = () => {
   console.log(myNftList);
 
   useEffect(() => {
-    myNftListRefetch();
-  }, [activeAddress]);
+    if (myNftList) {
+      myNftListRefetch();
+      setImageList(myNftList.data);
+    }
+  }, [activeAddress, myNftList]);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -36,6 +41,7 @@ const MyPage = () => {
   };
 
   if (!activeAddress) return <Title>Log In First</Title>;
+  if (activeAddress && !imageList) return <Loading />;
 
   return (
     <Wrapper>
@@ -45,8 +51,9 @@ const MyPage = () => {
 
       <AiWrapper>
         <>
-          <Creature />
-
+          <Suspense fallback={<div>Loading...</div>}>
+            <Creature />
+          </Suspense>
           <AiStatsBox>
             <AiStatsTitle>My Creature Stats</AiStatsTitle>
             <AiStatsItem>
@@ -79,42 +86,44 @@ const MyPage = () => {
       <ImagesWrapper>
         <Title>My Images</Title>
         <ImagesContaimer>
-          {myNftList?.data?.map((item: any) => (
-            <ImageBox key={item.id}>
-              <InfoBox>
-                <Base64Image base64String={item.image} />
-                <StatBox>
-                  {Object.entries(item.stats).map(([key, value]) => (
-                    <Stat key={key}>
-                      <StatTitle>{key} : </StatTitle>
-                      <StatValue>{String(value)}</StatValue>
-                    </Stat>
-                  ))}
-                </StatBox>
-              </InfoBox>
-              <PriceBox>
-                {item.ownerships ? (
-                  <>
-                    <Doughnut
-                      data={{
-                        // labels: Object.keys(item.ownerships),
-                        datasets: [
-                          {
-                            data: Object.values(item.ownerships),
-                            backgroundColor: Object.values(item.ownerships).map(
-                              () => getRandomColor()
-                            ),
-                          },
-                        ],
-                      }}
-                    />
-                    <PriceTitle>Price Ratio</PriceTitle>
-                  </>
-                ) : (
-                  <Yet>Not sold yet</Yet>
-                )}
-              </PriceBox>
-            </ImageBox>
+          {imageList?.map((item: any) => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ImageBox key={item.id}>
+                <InfoBox>
+                  <Base64Image base64String={item.image} />
+                  <StatBox>
+                    {Object.entries(item.stats).map(([key, value]) => (
+                      <Stat key={key}>
+                        <StatTitle>{key} : </StatTitle>
+                        <StatValue>{String(value)}</StatValue>
+                      </Stat>
+                    ))}
+                  </StatBox>
+                </InfoBox>
+                <PriceBox>
+                  {item.ownerships ? (
+                    <>
+                      <Doughnut
+                        data={{
+                          // labels: Object.keys(item.ownerships),
+                          datasets: [
+                            {
+                              data: Object.values(item.ownerships),
+                              backgroundColor: Object.values(
+                                item.ownerships
+                              ).map(() => getRandomColor()),
+                            },
+                          ],
+                        }}
+                      />
+                      <PriceTitle>Price Ratio</PriceTitle>
+                    </>
+                  ) : (
+                    <Yet>Not sold yet</Yet>
+                  )}
+                </PriceBox>
+              </ImageBox>
+            </Suspense>
           ))}
         </ImagesContaimer>
       </ImagesWrapper>
