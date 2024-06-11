@@ -5,7 +5,6 @@ interface axiosApiProps {
   options: AxiosRequestConfig;
 }
 
-const base = "http://172.30.1.88:3456";
 const gen = import.meta.env.VITE_API_ENDPOINT;
 const axiosApi = ({ url, options }: axiosApiProps) => {
   const instance = axios.create({
@@ -17,5 +16,4 @@ const axiosApi = ({ url, options }: axiosApiProps) => {
   return instance;
 };
 
-export const defaultInstance = axiosApi({ url: base, options: {} });
 export const genInstance = axiosApi({ url: gen, options: {} });

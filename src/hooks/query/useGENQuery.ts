@@ -3,7 +3,7 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import { genRepository } from "../repositiry/GENRepository";
+import { genRepository } from "../repository/GENRepository";
 
 export const useGenQuery = () => {
   const useCreateImageByPrompt = (

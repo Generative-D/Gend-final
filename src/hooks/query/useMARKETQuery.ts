@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 
-import { marketRepository } from "../repositiry/MARKETRepository";
+import { marketRepository } from "../repository/MARKETRepository";
 
 export const useMarketQuery = () => {
   const useGetImageList = () => {

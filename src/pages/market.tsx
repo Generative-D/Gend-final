@@ -4,12 +4,24 @@ import MarketCreature from "../components/market-creature";
 import tw from "twin.macro";
 import { useMarketQuery } from "../hooks/query/useMARKETQuery";
 import Loading from "../components/loading";
-import { useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
+import { AlgorandClient } from "@algorandfoundation/algokit-utils";
+import { HelloWorldClient } from "../contracts/gend";
+import { getHelloWorldClient } from "../utils/getHelloworldClient";
+import { helloWorldAppId } from "../utils/helloWorldAppId";
+import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
+import { useAtom } from "jotai";
+import { algorandClientAtom, helloWorldClientAtom } from "../atom";
+import * as methods from "../method";
 
 const Market = () => {
   const { useGetNftList, useGetAiList, useBuyImg } = useMarketQuery();
-  const { activeAddress } = useWallet();
+  const { signer, activeAddress, clients, activeAccount } = useWallet();
+  const [algorandClient, setAlgorandClient] = useAtom(algorandClientAtom);
+  const [helloWorldAppClient, setHelloWorldAppClient] =
+    useAtom(helloWorldClientAtom);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: imageList } = useGetNftList();
@@ -26,15 +38,87 @@ const Market = () => {
     },
   });
 
-  console.log(imageList);
-
-  const handleBuyImg = (
+  const handleBuyImg = async (
     prompt: string,
     chain_address: string,
     address: string
   ) => {
-    buyImg({ prompt, chain_address, address });
+    if (!activeAddress) {
+      alert("Wallet is required");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      await callBuyNft();
+      const buyImgRes = await buyImg({ prompt, chain_address, address });
+      console.log(buyImgRes);
+    } catch (error) {
+      console.error("Error buying image:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const callBuyNft = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    const helloWorldClient = await getHelloWorldClient(
+      algorandClient,
+      activeAddress,
+      signer
+    );
+    try {
+      await methods.buyNft(algorandClient, helloWorldClient, activeAddress);
+    } catch (error) {
+      console.error("Error buying NFT:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeAddress) {
+      const algodConfig = getAlgodConfigFromViteEnvironment();
+      const algorandClient = AlgorandClient.fromConfig({ algodConfig });
+      algorandClient.setDefaultSigner(signer);
+      startTransition(() => {
+        setAlgorandClient(algorandClient);
+      });
+    }
+  }, [activeAddress]);
+
+  useEffect(() => {
+    if (activeAddress && algorandClient) {
+      const helloWorldClient = new HelloWorldClient(
+        {
+          resolveBy: "id",
+          id: helloWorldAppId,
+          sender: { addr: activeAddress, signer },
+        },
+        algorandClient.client.algod
+      );
+      startTransition(() => {
+        setHelloWorldAppClient(helloWorldClient);
+      });
+    }
+  }, [algorandClient]);
 
   if (!imageList) {
     return <Loading />;

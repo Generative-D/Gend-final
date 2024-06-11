@@ -89,7 +89,6 @@ const Creature = () => {
   return (
     <Wrapper>
       <LottieWrapper ref={warpperRef} />
-      {/* {speech && ( */}
       <SpeechBubbleWrapper
         speech={speech}
         style={{
@@ -98,7 +97,6 @@ const Creature = () => {
       >
         <Text>{speech}</Text>
       </SpeechBubbleWrapper>
-      {/* )} */}
       <Canvas>
         <Suspense fallback={<div>Loading...</div>}>
           {localScene && (

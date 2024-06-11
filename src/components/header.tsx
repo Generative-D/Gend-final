@@ -10,7 +10,6 @@ import logo from "../assets/gend.png";
 const Header = () => {
   const navigate = useNavigate();
   const [openWalletModal, setOpenWalletModal] = useState(false);
-
   const toggleWalletModal = () => {
     setOpenWalletModal((prev) => !prev);
   };

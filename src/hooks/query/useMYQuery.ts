@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { myRepository } from "../repositiry/MYRepository";
+import { myRepository } from "../repository/MYRepository";
 
 export const useMyQuery = () => {
   const useGetImgByAddress = (address: string) => {

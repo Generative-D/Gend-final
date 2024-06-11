@@ -12,10 +12,6 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   const { providers, activeAddress } = useWallet();
 
   return (
-    // <dialog
-    //   id="connect_wallet_modal"
-    //   className={`modal ${openModal ? "modal-open" : ""}`}
-    // >
     <>
       <Dialog id="connect_wallet_modal" openModal={openModal}>
         <SelectWalletForm method="dialog">
@@ -71,9 +67,6 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
                     if (activeProvider) {
                       activeProvider.disconnect();
                     } else {
-                      // Required for logout/cleanup of inactive providers
-                      // For instance, when you login to localnet wallet and switch network
-                      // to testnet/mainnet or vice verse.
                       localStorage.removeItem("txnlab-use-wallet");
                       window.location.reload();
                     }

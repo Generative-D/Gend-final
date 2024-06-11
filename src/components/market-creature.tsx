@@ -26,8 +26,6 @@ const CreatureModel = ({
         object={scene}
         onClick={onClick}
         scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
-
-        // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
       />
     </group>
   );

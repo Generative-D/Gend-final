@@ -47,14 +47,13 @@ const Gen = () => {
   } = useGenQuery();
 
   const { data: userAiData, refetch } = useGetUserAi(activeAddress || "") || {};
-  console.log(userAiData?.ai_stats.basic);
+
   useEffect(() => {
     if (userAiData) {
       setAiStats(userAiData.basic);
       console.log(aiStats);
-      console.log(userAiData.basic);
     } else {
-      console.log("No Data");
+      console.log("No userAiData");
     }
   }, [userAiData]);
 
