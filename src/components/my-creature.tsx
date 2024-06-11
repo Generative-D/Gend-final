@@ -129,6 +129,7 @@ const SpeechBubbleWrapper = styled.div<SpeechBubbleProps>((props) => [
 ]);
 
 const Text = tw.div`
+  w-250 
   font-l-b
   text-center
 `;

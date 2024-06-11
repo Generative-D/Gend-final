@@ -2,7 +2,7 @@
 import Creature from "../components/my-creature";
 import tw from "twin.macro";
 import { IconUp } from "../components/icon";
-import { Suspense, startTransition, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
@@ -12,8 +12,8 @@ import { getHelloWorldClient } from "../utils/getHelloworldClient";
 import * as methods from "../method";
 import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils/types/algorand-client";
-import { HelloWorldClient } from "../contracts/gend";
-import { helloWorldAppId } from "../utils/helloWorldAppId";
+import { GendContractClient } from "../contracts/gend";
+import { gedDAppId } from "../utils/helloWorldAppId";
 
 interface aiStatInterface {
   active: number;
@@ -33,7 +33,7 @@ const Gen = () => {
   const [algorandClient, setAlgorandClient] = useAtom(algorandClientAtom);
   const [helloWorldAppClient, setHelloWorldAppClient] =
     useAtom(helloWorldClientAtom);
-
+  const [freePromptValue, setFreePromptValue] = useState<string>("");
   const [chainAddress, setChainAddress] = useState<string>("");
 
   const { signer, activeAddress, clients, activeAccount } = useWallet();
@@ -167,6 +167,7 @@ const Gen = () => {
     try {
       const result: any = await createImageWithoutPrompt(activeAddress);
       setImgSrc(result.datas[0].image);
+      setFreePromptValue(result.datas[0].prompt);
       // console.log(result.datas[0].stats);
     } catch (error) {
       console.error("Error generating image:", error);
@@ -210,6 +211,34 @@ const Gen = () => {
     }
   };
 
+  const callHelloWorldApp = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    try {
+      await methods.helloNft(helloWorldAppClient);
+    } catch (error) {
+      console.error("Error calling Hello World App:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const callStoreMyNft = async () => {
     setIsLoading(true);
 
@@ -243,34 +272,67 @@ const Gen = () => {
     }
   };
 
+  const buyNft = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    const helloWorldClient = await getHelloWorldClient(
+      algorandClient,
+      activeAddress,
+      signer
+    );
+    try {
+      await methods.buyNft(algorandClient, helloWorldClient, activeAddress);
+    } catch (error) {
+      console.error("Error storing NFT:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromptValue(e.target.value);
   };
 
   useEffect(() => {
     if (activeAddress) {
+      console.log("getAlgodConfigFromViteEnvironment");
       const algodConfig = getAlgodConfigFromViteEnvironment();
       const algorandClient = AlgorandClient.fromConfig({ algodConfig });
       algorandClient.setDefaultSigner(signer);
-      startTransition(() => {
-        setAlgorandClient(algorandClient);
-      });
+
+      setAlgorandClient(algorandClient);
     }
   }, [activeAddress]);
 
   useEffect(() => {
     if (activeAddress && algorandClient) {
-      const helloWorldClient = new HelloWorldClient(
+      console.log("HelloWorldClient");
+      const helloWorldClient = new GendContractClient(
         {
           resolveBy: "id",
-          id: helloWorldAppId,
+          id: gedDAppId,
           sender: { addr: activeAddress, signer },
         },
         algorandClient.client.algod
       );
-      startTransition(() => {
-        setHelloWorldAppClient(helloWorldClient);
-      });
+
+      setHelloWorldAppClient(helloWorldClient);
     }
   }, [algorandClient]);
 
@@ -278,8 +340,9 @@ const Gen = () => {
     <>
       <Wrapper>
         {isLoading && <Loading />}
+        {/* <button onClick={callHelloWorldApp}>Call Hello World App</button>
         <button onClick={callStoreMyNft}>Call Store My NFT</button>
-
+        <button onClick={buyNft}>Buy NFT</button> */}
         <AiWrapper>
           {userAiData && (
             <>
@@ -341,7 +404,13 @@ const Gen = () => {
         {imgSrc && (
           <MineWrapper>
             <MineImageWrapper>
-              <Base64Image base64String={imgSrc} />
+              <ImageBox>
+                <Base64Image base64String={imgSrc} />
+
+                <StatsTitle>
+                  {freePromptValue && "Prompt : " + freePromptValue}
+                </StatsTitle>
+              </ImageBox>
               {imageStats && (
                 <StatsBox>
                   <StatsTitle>Stats</StatsTitle>
@@ -406,7 +475,9 @@ const Base64Image = ({ base64String }: { base64String: string }) => {
     />
   );
 };
-
+const ImageBox = tw.div`
+  flex flex-col w-full h-full items-center gap-12
+`;
 const Wrapper = tw.div`
   flex flex-col items-center w-screen pt-24 gap-12
   box-border

@@ -51,7 +51,7 @@ export const APP_SPEC: AppSpec = {
         no_op: "CALL",
       },
     },
-    "buy_data(uint64,address,pay)void": {
+    "buy_data(uint64,address,pay)uint64": {
       call_config: {
         no_op: "CALL",
       },
@@ -59,13 +59,13 @@ export const APP_SPEC: AppSpec = {
   },
   source: {
     approval:
-      "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuaGVsbG9fd29ybGQuY29udHJhY3QuSGVsbG9Xb3JsZC5hcHByb3ZhbF9wcm9ncmFtOgogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGJueiBtYWluX2VudHJ5cG9pbnRAMgogICAgY2FsbHN1YiBfX2luaXRfXwoKbWFpbl9lbnRyeXBvaW50QDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MTUtMTYKICAgIC8vICMgT3duZXJNeURhdGFzOiB0eXBpbmcuVHlwZUFsaWFzID0gYXJjNC5EeW5hbWljQXJyYXlbT3duZXJNeURhdGFdCiAgICAvLyBjbGFzcyBIZWxsb1dvcmxkKEFSQzRDb250cmFjdCk6CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9iYXJlX3JvdXRpbmdAOQogICAgbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIgogICAgbWV0aG9kICJzdG9yZV9teV9kYXRhKHVpbnQ2NCxhZGRyZXNzW10sc3RyaW5nKXVpbnQ2NCIKICAgIG1ldGhvZCAiYnV5X2RhdGEodWludDY0LGFkZHJlc3MscGF5KXZvaWQiCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBtYWluX2hlbGxvX3JvdXRlQDQgbWFpbl9zdG9yZV9teV9kYXRhX3JvdXRlQDUgbWFpbl9idXlfZGF0YV9yb3V0ZUA2CiAgICBlcnIgLy8gcmVqZWN0IHRyYW5zYWN0aW9uCgptYWluX2hlbGxvX3JvdXRlQDQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjMKICAgIC8vIEBhcmM0LmFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gaXMgbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MTUtMTYKICAgIC8vICMgT3duZXJNeURhdGFzOiB0eXBpbmcuVHlwZUFsaWFzID0gYXJjNC5EeW5hbWljQXJyYXlbT3duZXJNeURhdGFdCiAgICAvLyBjbGFzcyBIZWxsb1dvcmxkKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjMKICAgIC8vIEBhcmM0LmFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIGhlbGxvCiAgICBieXRlIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnQgMQogICAgcmV0dXJuCgptYWluX3N0b3JlX215X2RhdGFfcm91dGVANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weToyNwogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weToxNS0xNgogICAgLy8gIyBPd25lck15RGF0YXM6IHR5cGluZy5UeXBlQWxpYXMgPSBhcmM0LkR5bmFtaWNBcnJheVtPd25lck15RGF0YV0KICAgIC8vIGNsYXNzIEhlbGxvV29ybGQoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weToyNwogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgc3RvcmVfbXlfZGF0YQogICAgYnl0ZSAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50IDEKICAgIHJldHVybgoKbWFpbl9idXlfZGF0YV9yb3V0ZUA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjQ1CiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGlzIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjE1LTE2CiAgICAvLyAjIE93bmVyTXlEYXRhczogdHlwaW5nLlR5cGVBbGlhcyA9IGFyYzQuRHluYW1pY0FycmF5W093bmVyTXlEYXRhXQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgdHhuIEdyb3VwSW5kZXgKICAgIGludCAxCiAgICAtCiAgICBkdXAKICAgIGd0eG5zIFR5cGVFbnVtCiAgICBpbnQgcGF5CiAgICA9PQogICAgYXNzZXJ0IC8vIHRyYW5zYWN0aW9uIHR5cGUgaXMgcGF5CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NDUKICAgIC8vIEBhcmM0LmFiaW1ldGhvZCgpCiAgICBjYWxsc3ViIGJ1eV9kYXRhCiAgICBpbnQgMQogICAgcmV0dXJuCgptYWluX2JhcmVfcm91dGluZ0A5OgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjE1LTE2CiAgICAvLyAjIE93bmVyTXlEYXRhczogdHlwaW5nLlR5cGVBbGlhcyA9IGFyYzQuRHluYW1pY0FycmF5W093bmVyTXlEYXRhXQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIHJlamVjdCB0cmFuc2FjdGlvbgogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBpcyBjcmVhdGluZwogICAgaW50IDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5oZWxsb193b3JsZC5jb250cmFjdC5IZWxsb1dvcmxkLmhlbGxvKG5hbWU6IGJ5dGVzKSAtPiBieXRlczoKaGVsbG86CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjMtMjQKICAgIC8vIEBhcmM0LmFiaW1ldGhvZCgpCiAgICAvLyBkZWYgaGVsbG8oc2VsZiwgbmFtZTogYXJjNC5TdHJpbmcpIC0+IGFyYzQuU3RyaW5nOgogICAgcHJvdG8gMSAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MjUKICAgIC8vIHJldHVybiAiSGVsbG8sICIgKyBuYW1lCiAgICBmcmFtZV9kaWcgLTEKICAgIGV4dHJhY3QgMiAwCiAgICBieXRlIDB4NDg2NTZjNmM2ZjJjMjAKICAgIHN3YXAKICAgIGNvbmNhdAogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5oZWxsb193b3JsZC5jb250cmFjdC5IZWxsb1dvcmxkLnN0b3JlX215X2RhdGEodW5pcXVlX2lkOiBieXRlcywgb3duZXJfYWRkcjogYnl0ZXMsIHByb21wdDogYnl0ZXMpIC0+IGJ5dGVzOgpzdG9yZV9teV9kYXRhOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjI3LTMyCiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgLy8gZGVmIHN0b3JlX215X2RhdGEoCiAgICAvLyAgICAgIHNlbGYsCiAgICAvLyAgICAgIHVuaXF1ZV9pZDogYXJjNC5VSW50NjQsCiAgICAvLyAgICAgIG93bmVyX2FkZHI6IEFkZHJBcnJheSwKICAgIC8vICAgICAgcHJvbXB0OiBhcmM0LlN0cmluZykgLT4gYXJjNC5VSW50NjQ6CiAgICBwcm90byAzIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTozOAogICAgLy8gY3JlYXRlZF90aW1lPWFyYzQuVUludDY0KEdsb2JhbC5sYXRlc3RfdGltZXN0YW1wKSwKICAgIGdsb2JhbCBMYXRlc3RUaW1lc3RhbXAKICAgIGl0b2IKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTozNC0zOQogICAgLy8gb3duZXJfbXlfZGF0YSA9IE93bmVyTXlEYXRhKAogICAgLy8gICAgICB1bmlxdWVfaWQ9dW5pcXVlX2lkLAogICAgLy8gICAgICBvd25lcnM9b3duZXJfYWRkci5jb3B5KCksCiAgICAvLyAgICAgIGVuY29kaW5nX3Byb21wdD1wcm9tcHQsCiAgICAvLyAgICAgIGNyZWF0ZWRfdGltZT1hcmM0LlVJbnQ2NChHbG9iYWwubGF0ZXN0X3RpbWVzdGFtcCksCiAgICAvLyApCiAgICBmcmFtZV9kaWcgLTMKICAgIGJ5dGUgMHgwMDE0CiAgICBjb25jYXQKICAgIGZyYW1lX2RpZyAtMgogICAgbGVuCiAgICBpbnQgMjAKICAgICsKICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBjb25jYXQKICAgIHN3YXAKICAgIGNvbmNhdAogICAgZnJhbWVfZGlnIC0yCiAgICBjb25jYXQKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NDEKICAgIC8vIG9wLkJveC5wdXQodW5pcXVlX2lkLmJ5dGVzLCBvd25lcl9teV9kYXRhLmJ5dGVzKQogICAgZnJhbWVfZGlnIC0zCiAgICBzd2FwCiAgICBib3hfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NDMKICAgIC8vIHJldHVybiB1bmlxdWVfaWQKICAgIGZyYW1lX2RpZyAtMwogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmhlbGxvX3dvcmxkLmNvbnRyYWN0LkhlbGxvV29ybGQuYnV5X2RhdGEodW5pcXVlX2lkOiBieXRlcywgYnV5ZXI6IGJ5dGVzLCB0eDogdWludDY0KSAtPiB2b2lkOgpidXlfZGF0YToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo0NS00NgogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBidXlfZGF0YShzZWxmLCB1bmlxdWVfaWQ6IGFyYzQuVUludDY0LCBidXllcjogYXJjNC5BZGRyZXNzLCB0eDogZ3R4bi5QYXltZW50VHJhbnNhY3Rpb24pIC0+IE5vbmU6CiAgICBwcm90byAzIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo0OAogICAgLy8gb3duZXJfbXlfZGF0YV9ieXRlcywgZXhpc3QgPSBvcC5Cb3guZ2V0KHVuaXF1ZV9pZC5ieXRlcykKICAgIGZyYW1lX2RpZyAtMwogICAgYm94X2dldAogICAgc3dhcAogICAgZHVwCiAgICB1bmNvdmVyIDIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo0OS01MQogICAgLy8gIyAgYSA9IE93bmVyTXlEYXRhKG93bmVyX215X2RhdGEuKQogICAgLy8gIyAgb3AuZXh0cmFjdChvd25lcl9teV9kYXRhLCAwLCAzKQogICAgLy8gIGFzc2VydCBleGlzdCA9PSBUcnVlLCAibm90IGV4aXN0IgogICAgaW50IDEKICAgID09CiAgICBhc3NlcnQgLy8gbm90IGV4aXN0CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NTQKICAgIC8vIGFzc2VydCBVSW50NjQoMTAwMDAwMCkgKiBvd25lcl9teV9kYXRhLm93bmVycy5sZW5ndGggPT0gdHguYW1vdW50LCAiYW1vdW50IGlzIG5vdCBtYXRjaGVkIgogICAgZHVwCiAgICBpbnQgOAogICAgZXh0cmFjdF91aW50MTYKICAgIGR1cAogICAgdW5jb3ZlciAyCiAgICBkdXAKICAgIGludCAxMAogICAgZXh0cmFjdF91aW50MTYKICAgIGR1cAogICAgY292ZXIgMwogICAgc3dhcAogICAgY292ZXIgMgogICAgc3Vic3RyaW5nMwogICAgZHVwCiAgICBpbnQgMAogICAgZXh0cmFjdF91aW50MTYKICAgIGR1cAogICAgaW50IDEwMDAwMDAKICAgICoKICAgIGZyYW1lX2RpZyAtMQogICAgZ3R4bnMgQW1vdW50CiAgICBkdXAKICAgIGNvdmVyIDIKICAgID09CiAgICBhc3NlcnQgLy8gYW1vdW50IGlzIG5vdCBtYXRjaGVkCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NTcKICAgIC8vIGFtdCA9IHR4LmFtb3VudCAqIFVJbnQ2NCg5KSAvLyBVSW50NjQoMTApCiAgICBpbnQgOQogICAgKgogICAgaW50IDEwCiAgICAvCiAgICBpbnQgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjU4CiAgICAvLyBmb3IgaW5kZXgsIGl0ZW0gaW4gdWVudW1lcmF0ZSh1cmFuZ2UobGVuKSk6CiAgICBkdXAKCmJ1eV9kYXRhX2Zvcl9oZWFkZXJAMToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo1OAogICAgLy8gZm9yIGluZGV4LCBpdGVtIGluIHVlbnVtZXJhdGUodXJhbmdlKGxlbikpOgogICAgZnJhbWVfZGlnIDcKICAgIGZyYW1lX2RpZyA0CiAgICA8CiAgICBieiBidXlfZGF0YV9hZnRlcl9mb3JANgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjU5CiAgICAvLyBhZGRyID0gb3duZXJfbXlfZGF0YS5vd25lcnNbaW5kZXhdLmNvcHkoKQogICAgZnJhbWVfZGlnIDMKICAgIGV4dHJhY3QgMiAwCiAgICBmcmFtZV9kaWcgNgogICAgZHVwCiAgICBjb3ZlciAyCiAgICBpbnQgMzIKICAgICoKICAgIGludCAzMgogICAgZXh0cmFjdDMgLy8gb24gZXJyb3I6IEluZGV4IGFjY2VzcyBpcyBvdXQgb2YgYm91bmRzCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NjAtNjMKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgcmVjZWl2ZXI9YWRkci5uYXRpdmUsCiAgICAvLyAgIGFtb3VudD0gYW10IC8vIChvd25lcl9teV9kYXRhLm93bmVycy5sZW5ndGgpCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NjIKICAgIC8vIGFtb3VudD0gYW10IC8vIChvd25lcl9teV9kYXRhLm93bmVycy5sZW5ndGgpCiAgICBmcmFtZV9kaWcgNQogICAgZnJhbWVfZGlnIDQKICAgIC8KICAgIGl0eG5fZmllbGQgQW1vdW50CiAgICBpdHhuX2ZpZWxkIFJlY2VpdmVyCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NjAKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIGludCBwYXkKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGludCAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjYwLTYzCiAgICAvLyBpdHhuLlBheW1lbnQoCiAgICAvLyAgIHJlY2VpdmVyPWFkZHIubmF0aXZlLAogICAgLy8gICBhbW91bnQ9IGFtdCAvLyAob3duZXJfbXlfZGF0YS5vd25lcnMubGVuZ3RoKQogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo1OAogICAgLy8gZm9yIGluZGV4LCBpdGVtIGluIHVlbnVtZXJhdGUodXJhbmdlKGxlbikpOgogICAgZnJhbWVfZGlnIDcKICAgIGludCAxCiAgICArCiAgICBzd2FwCiAgICBpbnQgMQogICAgKwogICAgZnJhbWVfYnVyeSA2CiAgICBmcmFtZV9idXJ5IDcKICAgIGIgYnV5X2RhdGFfZm9yX2hlYWRlckAxCgpidXlfZGF0YV9hZnRlcl9mb3JANjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo2NQogICAgLy8gb3duZXJfbXlfZGF0YS5vd25lcnMuYXBwZW5kKGJ1eWVyLmNvcHkoKSkKICAgIGZyYW1lX2RpZyAzCiAgICBleHRyYWN0IDIgMAogICAgZnJhbWVfZGlnIC0yCiAgICBjb25jYXQKICAgIGR1cAogICAgbGVuCiAgICBpbnQgMzIKICAgIC8KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGZyYW1lX2RpZyAwCiAgICBkdXAKICAgIGludCAwCiAgICBmcmFtZV9kaWcgMQogICAgZHVwCiAgICBjb3ZlciA1CiAgICBleHRyYWN0MwogICAgc3dhcAogICAgZHVwCiAgICBsZW4KICAgIHN3YXAKICAgIGZyYW1lX2RpZyAyCiAgICBkdXAKICAgIGNvdmVyIDQKICAgIHVuY292ZXIgMgogICAgc3Vic3RyaW5nMwogICAgc3dhcAogICAgZGlnIDMKICAgIGNvbmNhdAogICAgc3dhcAogICAgY29uY2F0CiAgICBzd2FwCiAgICB1bmNvdmVyIDMKICAgIC0KICAgIGNvdmVyIDIKICAgIHN3YXAKICAgIGxlbgogICAgZGlnIDEKICAgIGludCAxMAogICAgZXh0cmFjdF91aW50MTYKICAgICsKICAgIHVuY292ZXIgMgogICAgLQogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHJlcGxhY2UyIDEwCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6NjYKICAgIC8vIG9wLkJveC5kZWxldGUodW5pcXVlX2lkLmJ5dGVzKQogICAgZnJhbWVfZGlnIC0zCiAgICBib3hfZGVsCiAgICBwb3AKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9oZWxsb193b3JsZC9jb250cmFjdC5weTo2NwogICAgLy8gb3AuQm94LnB1dCh1bmlxdWVfaWQuYnl0ZXMsIG93bmVyX215X2RhdGEuYnl0ZXMpCiAgICBmcmFtZV9kaWcgLTMKICAgIHN3YXAKICAgIGJveF9wdXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5oZWxsb193b3JsZC5jb250cmFjdC5IZWxsb1dvcmxkLl9faW5pdF9fKCkgLT4gdm9pZDoKX19pbml0X186CiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MTgKICAgIC8vIGRlZiBfX2luaXRfXyhzZWxmKSAtPiBOb25lOgogICAgcHJvdG8gMCAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvaGVsbG9fd29ybGQvY29udHJhY3QucHk6MTkKICAgIC8vIHJldHVybgogICAgcmV0c3ViCg==",
+      "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuZ2VuZF9jb250cmFjdC5jb250cmFjdC5HZW5kQ29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbToKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBibnogbWFpbl9lbnRyeXBvaW50QDIKICAgIGNhbGxzdWIgX19pbml0X18KCm1haW5fZW50cnlwb2ludEAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6NgogICAgLy8gY2xhc3MgR2VuZENvbnRyYWN0KEFSQzRDb250cmFjdCk6CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9iYXJlX3JvdXRpbmdAOQogICAgbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIgogICAgbWV0aG9kICJzdG9yZV9teV9kYXRhKHVpbnQ2NCxhZGRyZXNzW10sc3RyaW5nKXVpbnQ2NCIKICAgIG1ldGhvZCAiYnV5X2RhdGEodWludDY0LGFkZHJlc3MscGF5KXVpbnQ2NCIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5faGVsbG9fcm91dGVANCBtYWluX3N0b3JlX215X2RhdGFfcm91dGVANSBtYWluX2J1eV9kYXRhX3JvdXRlQDYKICAgIGVyciAvLyByZWplY3QgdHJhbnNhY3Rpb24KCm1haW5faGVsbG9fcm91dGVANDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjEzCiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGlzIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6NgogICAgLy8gY2xhc3MgR2VuZENvbnRyYWN0KEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weToxMwogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgaGVsbG8KICAgIGJ5dGUgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludCAxCiAgICByZXR1cm4KCm1haW5fc3RvcmVfbXlfZGF0YV9yb3V0ZUA1OgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MTcKICAgIC8vIEBhcmM0LmFiaW1ldGhvZCgpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gaXMgbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTo2CiAgICAvLyBjbGFzcyBHZW5kQ29udHJhY3QoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjE3CiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgY2FsbHN1YiBzdG9yZV9teV9kYXRhCiAgICBieXRlIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnQgMQogICAgcmV0dXJuCgptYWluX2J1eV9kYXRhX3JvdXRlQDY6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozMAogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjYKICAgIC8vIGNsYXNzIEdlbmRDb250cmFjdChBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgdHhuIEdyb3VwSW5kZXgKICAgIGludCAxCiAgICAtCiAgICBkdXAKICAgIGd0eG5zIFR5cGVFbnVtCiAgICBpbnQgcGF5CiAgICA9PQogICAgYXNzZXJ0IC8vIHRyYW5zYWN0aW9uIHR5cGUgaXMgcGF5CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozMAogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIGNhbGxzdWIgYnV5X2RhdGEKICAgIGJ5dGUgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludCAxCiAgICByZXR1cm4KCm1haW5fYmFyZV9yb3V0aW5nQDk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTo2CiAgICAvLyBjbGFzcyBHZW5kQ29udHJhY3QoQVJDNENvbnRyYWN0KToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyByZWplY3QgdHJhbnNhY3Rpb24KICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gaXMgY3JlYXRpbmcKICAgIGludCAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMuZ2VuZF9jb250cmFjdC5jb250cmFjdC5HZW5kQ29udHJhY3QuaGVsbG8obmFtZTogYnl0ZXMpIC0+IGJ5dGVzOgpoZWxsbzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjEzLTE0CiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgLy8gZGVmIGhlbGxvKHNlbGYsIG5hbWU6IGFyYzQuU3RyaW5nKSAtPiBhcmM0LlN0cmluZzoKICAgIHByb3RvIDEgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MTUKICAgIC8vIHJldHVybiAiSGVsbG8sICIgKyBuYW1lCiAgICBmcmFtZV9kaWcgLTEKICAgIGV4dHJhY3QgMiAwCiAgICBieXRlIDB4NDg2NTZjNmM2ZjJjMjAKICAgIHN3YXAKICAgIGNvbmNhdAogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5nZW5kX2NvbnRyYWN0LmNvbnRyYWN0LkdlbmRDb250cmFjdC5zdG9yZV9teV9kYXRhKHVuaXF1ZV9pZDogYnl0ZXMsIG93bmVyX2FkZHI6IGJ5dGVzLCBwcm9tcHQ6IGJ5dGVzKSAtPiBieXRlczoKc3RvcmVfbXlfZGF0YToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjE3LTIyCiAgICAvLyBAYXJjNC5hYmltZXRob2QoKQogICAgLy8gZGVmIHN0b3JlX215X2RhdGEoCiAgICAvLyAgICAgIHNlbGYsCiAgICAvLyAgICAgIHVuaXF1ZV9pZDogYXJjNC5VSW50NjQsCiAgICAvLyAgICAgIG93bmVyX2FkZHI6IEFkZHJBcnJheSwKICAgIC8vICAgICAgcHJvbXB0OiBhcmM0LlN0cmluZykgLT4gYXJjNC5VSW50NjQ6CiAgICBwcm90byAzIDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjI0CiAgICAvLyBzZWxmLnVuaXF1ZV9pZCA9IHVuaXF1ZV9pZAogICAgYnl0ZSAidW5pcXVlX2lkIgogICAgZnJhbWVfZGlnIC0zCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MjUKICAgIC8vIHNlbGYub3duZXJfYWRkciA9IG93bmVyX2FkZHIuY29weSgpCiAgICBieXRlICJvd25lcl9hZGRyIgogICAgZnJhbWVfZGlnIC0yCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MjYKICAgIC8vIHNlbGYucHJvbXB0ID0gcHJvbXB0CiAgICBieXRlICJwcm9tcHQiCiAgICBmcmFtZV9kaWcgLTEKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weToyOAogICAgLy8gcmV0dXJuIHVuaXF1ZV9pZAogICAgZnJhbWVfZGlnIC0zCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuZ2VuZF9jb250cmFjdC5jb250cmFjdC5HZW5kQ29udHJhY3QuYnV5X2RhdGEodW5pcXVlX2lkOiBieXRlcywgYnV5ZXI6IGJ5dGVzLCB0eDogdWludDY0KSAtPiBieXRlczoKYnV5X2RhdGE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozMC0zMQogICAgLy8gQGFyYzQuYWJpbWV0aG9kKCkKICAgIC8vIGRlZiBidXlfZGF0YShzZWxmLCB1bmlxdWVfaWQ6IGFyYzQuVUludDY0LCBidXllcjogYXJjNC5BZGRyZXNzLCB0eDogZ3R4bi5QYXltZW50VHJhbnNhY3Rpb24pIC0+IGFyYzQuVUludDY0OgogICAgcHJvdG8gMyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozMwogICAgLy8gYXNzZXJ0IFVJbnQ2NCgxMDAwMDAwKSAqIHNlbGYub3duZXJfYWRkci5sZW5ndGggPT0gdHguYW1vdW50LCAiYW1vdW50IGlzIG5vdCBtYXRjaGVkIgogICAgaW50IDAKICAgIGJ5dGUgIm93bmVyX2FkZHIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIG93bmVyX2FkZHIgZXhpc3RzCiAgICBpbnQgMAogICAgZXh0cmFjdF91aW50MTYKICAgIGludCAxMDAwMDAwCiAgICAqCiAgICBmcmFtZV9kaWcgLTEKICAgIGd0eG5zIEFtb3VudAogICAgZHVwCiAgICBjb3ZlciAyCiAgICA9PQogICAgYXNzZXJ0IC8vIGFtb3VudCBpcyBub3QgbWF0Y2hlZAogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MzUKICAgIC8vIGxlbiA9IHNlbGYub3duZXJfYWRkci5sZW5ndGgKICAgIGludCAwCiAgICBieXRlICJvd25lcl9hZGRyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBvd25lcl9hZGRyIGV4aXN0cwogICAgaW50IDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBzd2FwCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozNgogICAgLy8gYW10ID0gdHguYW1vdW50ICogVUludDY0KDkpIC8vIFVJbnQ2NCgxMCkKICAgIGludCA5CiAgICAqCiAgICBpbnQgMTAKICAgIC8KICAgIGludCAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozNwogICAgLy8gZm9yIGluZGV4LCBpdGVtIGluIHVlbnVtZXJhdGUodXJhbmdlKGxlbikpOgogICAgZHVwCgpidXlfZGF0YV9mb3JfaGVhZGVyQDE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTozNwogICAgLy8gZm9yIGluZGV4LCBpdGVtIGluIHVlbnVtZXJhdGUodXJhbmdlKGxlbikpOgogICAgZnJhbWVfZGlnIDMKICAgIGZyYW1lX2RpZyAwCiAgICA8CiAgICBieiBidXlfZGF0YV9hZnRlcl9mb3JANgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MzgKICAgIC8vIGFkZHIgPSBzZWxmLm93bmVyX2FkZHJbaW5kZXhdLmNvcHkoKQogICAgaW50IDAKICAgIGJ5dGUgIm93bmVyX2FkZHIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIG93bmVyX2FkZHIgZXhpc3RzCiAgICBleHRyYWN0IDIgMAogICAgZnJhbWVfZGlnIDIKICAgIGR1cAogICAgY292ZXIgMgogICAgaW50IDMyCiAgICAqCiAgICBpbnQgMzIKICAgIGV4dHJhY3QzIC8vIG9uIGVycm9yOiBJbmRleCBhY2Nlc3MgaXMgb3V0IG9mIGJvdW5kcwogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MzktNDIKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgcmVjZWl2ZXI9YWRkci5uYXRpdmUsCiAgICAvLyAgIGFtb3VudD0gYW10IC8vIChsZW4pLAogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9iZWdpbgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6NDEKICAgIC8vIGFtb3VudD0gYW10IC8vIChsZW4pLAogICAgZnJhbWVfZGlnIDEKICAgIGZyYW1lX2RpZyAwCiAgICAvCiAgICBpdHhuX2ZpZWxkIEFtb3VudAogICAgaXR4bl9maWVsZCBSZWNlaXZlcgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MzkKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIGludCBwYXkKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGludCAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6MzktNDIKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgcmVjZWl2ZXI9YWRkci5uYXRpdmUsCiAgICAvLyAgIGFtb3VudD0gYW10IC8vIChsZW4pLAogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjM3CiAgICAvLyBmb3IgaW5kZXgsIGl0ZW0gaW4gdWVudW1lcmF0ZSh1cmFuZ2UobGVuKSk6CiAgICBmcmFtZV9kaWcgMwogICAgaW50IDEKICAgICsKICAgIHN3YXAKICAgIGludCAxCiAgICArCiAgICBmcmFtZV9idXJ5IDIKICAgIGZyYW1lX2J1cnkgMwogICAgYiBidXlfZGF0YV9mb3JfaGVhZGVyQDEKCmJ1eV9kYXRhX2FmdGVyX2ZvckA2OgogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6NDQKICAgIC8vIHNlbGYub3duZXJfYWRkci5hcHBlbmQoYnV5ZXIuY29weSgpKQogICAgaW50IDAKICAgIGJ5dGUgIm93bmVyX2FkZHIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIG93bmVyX2FkZHIgZXhpc3RzCiAgICBleHRyYWN0IDIgMAogICAgZnJhbWVfZGlnIC0yCiAgICBjb25jYXQKICAgIGR1cAogICAgbGVuCiAgICBpbnQgMzIKICAgIC8KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGUgIm93bmVyX2FkZHIiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2dlbmRfY29udHJhY3QvY29udHJhY3QucHk6NDUKICAgIC8vIHJldHVybiB1bmlxdWVfaWQKICAgIGZyYW1lX2RpZyAtMwogICAgZnJhbWVfYnVyeSAwCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMuZ2VuZF9jb250cmFjdC5jb250cmFjdC5HZW5kQ29udHJhY3QuX19pbml0X18oKSAtPiB2b2lkOgpfX2luaXRfXzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjgKICAgIC8vIGRlZiBfX2luaXRfXyhzZWxmKSAtPiBOb25lOgogICAgcHJvdG8gMCAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weTo5CiAgICAvLyBzZWxmLnVuaXF1ZV9pZCA9IGFyYzQuVUludDY0KDApCiAgICBieXRlICJ1bmlxdWVfaWQiCiAgICBieXRlIDB4MDAwMDAwMDAwMDAwMDAwMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjEwCiAgICAvLyBzZWxmLnByb21wdCA9IGFyYzQuU3RyaW5nKCIiKQogICAgYnl0ZSAicHJvbXB0IgogICAgYnl0ZSAweDAwMDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZ2VuZF9jb250cmFjdC9jb250cmFjdC5weToxMQogICAgLy8gc2VsZi5vd25lcl9hZGRyID0gQWRkckFycmF5KCkKICAgIGJ5dGUgIm93bmVyX2FkZHIiCiAgICBieXRlIDB4MDAwMAogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1Ygo=",
     clear:
-      "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuaGVsbG9fd29ybGQuY29udHJhY3QuSGVsbG9Xb3JsZC5jbGVhcl9zdGF0ZV9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL2hlbGxvX3dvcmxkL2NvbnRyYWN0LnB5OjE1LTE2CiAgICAvLyAjIE93bmVyTXlEYXRhczogdHlwaW5nLlR5cGVBbGlhcyA9IGFyYzQuRHluYW1pY0FycmF5W093bmVyTXlEYXRhXQogICAgLy8gY2xhc3MgSGVsbG9Xb3JsZChBUkM0Q29udHJhY3QpOgogICAgaW50IDEKICAgIHJldHVybgo=",
+      "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuZ2VuZF9jb250cmFjdC5jb250cmFjdC5HZW5kQ29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9nZW5kX2NvbnRyYWN0L2NvbnRyYWN0LnB5OjYKICAgIC8vIGNsYXNzIEdlbmRDb250cmFjdChBUkM0Q29udHJhY3QpOgogICAgaW50IDEKICAgIHJldHVybgo=",
   },
   state: {
     global: {
-      num_byte_slices: 0,
+      num_byte_slices: 3,
       num_uints: 0,
     },
     local: {
@@ -75,7 +75,20 @@ export const APP_SPEC: AppSpec = {
   },
   schema: {
     global: {
-      declared: {},
+      declared: {
+        owner_addr: {
+          type: "bytes",
+          key: "owner_addr",
+        },
+        prompt: {
+          type: "bytes",
+          key: "prompt",
+        },
+        unique_id: {
+          type: "bytes",
+          key: "unique_id",
+        },
+      },
       reserved: {},
     },
     local: {
@@ -84,7 +97,7 @@ export const APP_SPEC: AppSpec = {
     },
   },
   contract: {
-    name: "HelloWorld",
+    name: "GendContract",
     methods: [
       {
         name: "hello",
@@ -135,7 +148,7 @@ export const APP_SPEC: AppSpec = {
           },
         ],
         returns: {
-          type: "void",
+          type: "uint64",
         },
       },
     ],
@@ -242,9 +255,9 @@ export type IncludeSchema = {
 };
 
 /**
- * Defines the types of available calls and state of the HelloWorld smart contract.
+ * Defines the types of available calls and state of the GendContract smart contract.
  */
-export type HelloWorld = {
+export type GendContract = {
   /**
    * Maps method signatures / names to their argument and return types.
    */
@@ -275,7 +288,7 @@ export type HelloWorld = {
       }
     > &
     Record<
-      "buy_data(uint64,address,pay)void" | "buy_data",
+      "buy_data(uint64,address,pay)uint64" | "buy_data",
       {
         argsObj: {
           uniqueId: bigint | number;
@@ -287,18 +300,28 @@ export type HelloWorld = {
           buyer: string,
           tx: TransactionToSign | Transaction | Promise<SendTransactionResult>
         ];
-        returns: void;
+        returns: bigint;
       }
     >;
+  /**
+   * Defines the shape of the global and local state of the application.
+   */
+  state: {
+    global: {
+      ownerAddr?: BinaryState;
+      prompt?: BinaryState;
+      uniqueId?: BinaryState;
+    };
+  };
 };
 /**
  * Defines the possible abi call signatures
  */
-export type HelloWorldSig = keyof HelloWorld["methods"];
+export type GendContractSig = keyof GendContract["methods"];
 /**
  * Defines an object containing all relevant parameters for a single call to the contract. Where TSignature is undefined, a bare call is made
  */
-export type TypedCallParams<TSignature extends HelloWorldSig | undefined> = {
+export type TypedCallParams<TSignature extends GendContractSig | undefined> = {
   method: TSignature;
   methodArgs: TSignature extends undefined
     ? undefined
@@ -310,49 +333,50 @@ export type TypedCallParams<TSignature extends HelloWorldSig | undefined> = {
  */
 export type BareCallArgs = Omit<RawAppCallArgs, keyof CoreAppCallArgs>;
 /**
- * Maps a method signature from the HelloWorld smart contract to the method's arguments in either tuple of struct form
+ * Maps a method signature from the GendContract smart contract to the method's arguments in either tuple of struct form
  */
-export type MethodArgs<TSignature extends HelloWorldSig> =
-  HelloWorld["methods"][TSignature]["argsObj" | "argsTuple"];
+export type MethodArgs<TSignature extends GendContractSig> =
+  GendContract["methods"][TSignature]["argsObj" | "argsTuple"];
 /**
- * Maps a method signature from the HelloWorld smart contract to the method's return type
+ * Maps a method signature from the GendContract smart contract to the method's return type
  */
-export type MethodReturn<TSignature extends HelloWorldSig> =
-  HelloWorld["methods"][TSignature]["returns"];
+export type MethodReturn<TSignature extends GendContractSig> =
+  GendContract["methods"][TSignature]["returns"];
 
 /**
  * A factory for available 'create' calls
  */
-export type HelloWorldCreateCalls = (typeof HelloWorldCallFactory)["create"];
+export type GendContractCreateCalls =
+  (typeof GendContractCallFactory)["create"];
 /**
  * Defines supported create methods for this smart contract
  */
-export type HelloWorldCreateCallParams =
+export type GendContractCreateCallParams =
   | TypedCallParams<undefined> & OnCompleteNoOp;
 /**
  * Defines arguments required for the deploy method.
  */
-export type HelloWorldDeployArgs = {
+export type GendContractDeployArgs = {
   deployTimeParams?: TealTemplateParams;
   /**
    * A delegate which takes a create call factory and returns the create call params for this smart contract
    */
   createCall?: (
-    callFactory: HelloWorldCreateCalls
-  ) => HelloWorldCreateCallParams;
+    callFactory: GendContractCreateCalls
+  ) => GendContractCreateCallParams;
 };
 
 /**
  * Exposes methods for constructing all available smart contract calls
  */
-export abstract class HelloWorldCallFactory {
+export abstract class GendContractCallFactory {
   /**
    * Gets available create call factories
    */
   static get create() {
     return {
       /**
-       * Constructs a create call for the HelloWorld smart contract using a bare call
+       * Constructs a create call for the GendContract smart contract using a bare call
        *
        * @param params Any parameters for the call
        * @returns A TypedCallParams object for the call
@@ -410,18 +434,18 @@ export abstract class HelloWorldCallFactory {
     };
   }
   /**
-   * Constructs a no op call for the buy_data(uint64,address,pay)void ABI method
+   * Constructs a no op call for the buy_data(uint64,address,pay)uint64 ABI method
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
   static buyData(
-    args: MethodArgs<"buy_data(uint64,address,pay)void">,
+    args: MethodArgs<"buy_data(uint64,address,pay)uint64">,
     params: AppClientCallCoreParams & CoreAppCallArgs
   ) {
     return {
-      method: "buy_data(uint64,address,pay)void" as const,
+      method: "buy_data(uint64,address,pay)uint64" as const,
       methodArgs: Array.isArray(args)
         ? args
         : [args.uniqueId, args.buyer, args.tx],
@@ -431,9 +455,9 @@ export abstract class HelloWorldCallFactory {
 }
 
 /**
- * A client to make calls to the HelloWorld smart contract
+ * A client to make calls to the GendContract smart contract
  */
-export class HelloWorldClient {
+export class GendContractClient {
   /**
    * The underlying `ApplicationClient` for when you want to have more flexibility
    */
@@ -442,7 +466,7 @@ export class HelloWorldClient {
   private readonly sender: SendTransactionFrom | undefined;
 
   /**
-   * Creates a new instance of `HelloWorldClient`
+   * Creates a new instance of `GendContractClient`
    *
    * @param appDetails appDetails The details to identify the app to deploy
    * @param algod An algod client instance
@@ -493,7 +517,7 @@ export class HelloWorldClient {
    * @param returnValueFormatter An optional delegate which when provided will be used to map non-undefined return values to the target type
    * @returns The result of the smart contract call
    */
-  public async call<TSignature extends keyof HelloWorld["methods"]>(
+  public async call<TSignature extends keyof GendContract["methods"]>(
     typedCallParams: TypedCallParams<TSignature>,
     returnValueFormatter?: (value: any) => MethodReturn<TSignature>
   ) {
@@ -504,17 +528,17 @@ export class HelloWorldClient {
   }
 
   /**
-   * Idempotently deploys the HelloWorld smart contract.
+   * Idempotently deploys the GendContract smart contract.
    *
    * @param params The arguments for the contract calls and any additional parameters for the call
    * @returns The deployment result
    */
   public deploy(
-    params: HelloWorldDeployArgs &
+    params: GendContractDeployArgs &
       AppClientDeployCoreParams &
       IncludeSchema = {}
   ): ReturnType<ApplicationClient["deploy"]> {
-    const createArgs = params.createCall?.(HelloWorldCallFactory.create);
+    const createArgs = params.createCall?.(GendContractCallFactory.create);
     return this.appClient.deploy({
       ...params,
       createArgs,
@@ -529,7 +553,7 @@ export class HelloWorldClient {
     const $this = this;
     return {
       /**
-       * Creates a new instance of the HelloWorld smart contract using a bare call.
+       * Creates a new instance of the GendContract smart contract using a bare call.
        *
        * @param args The arguments for the bare call
        * @returns The create result
@@ -550,7 +574,7 @@ export class HelloWorldClient {
   }
 
   /**
-   * Makes a clear_state call to an existing instance of the HelloWorld smart contract.
+   * Makes a clear_state call to an existing instance of the GendContract smart contract.
    *
    * @param args The arguments for the bare call
    * @returns The clear_state result
@@ -572,7 +596,7 @@ export class HelloWorldClient {
     args: MethodArgs<"hello(string)string">,
     params: AppClientCallCoreParams & CoreAppCallArgs = {}
   ) {
-    return this.call(HelloWorldCallFactory.hello(args, params));
+    return this.call(GendContractCallFactory.hello(args, params));
   }
 
   /**
@@ -586,24 +610,100 @@ export class HelloWorldClient {
     args: MethodArgs<"store_my_data(uint64,address[],string)uint64">,
     params: AppClientCallCoreParams & CoreAppCallArgs = {}
   ) {
-    return this.call(HelloWorldCallFactory.storeMyData(args, params));
+    return this.call(GendContractCallFactory.storeMyData(args, params));
   }
 
   /**
-   * Calls the buy_data(uint64,address,pay)void ABI method.
+   * Calls the buy_data(uint64,address,pay)uint64 ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
   public buyData(
-    args: MethodArgs<"buy_data(uint64,address,pay)void">,
+    args: MethodArgs<"buy_data(uint64,address,pay)uint64">,
     params: AppClientCallCoreParams & CoreAppCallArgs = {}
   ) {
-    return this.call(HelloWorldCallFactory.buyData(args, params));
+    return this.call(GendContractCallFactory.buyData(args, params));
   }
 
-  public compose(): HelloWorldComposer {
+  /**
+   * Extracts a binary state value out of an AppState dictionary
+   *
+   * @param state The state dictionary containing the state value
+   * @param key The key of the state value
+   * @returns A BinaryState instance containing the state value, or undefined if the key was not found
+   */
+  private static getBinaryState(
+    state: AppState,
+    key: string
+  ): BinaryState | undefined {
+    const value = state[key];
+    if (!value) return undefined;
+    if (!("valueRaw" in value))
+      throw new Error(
+        `Failed to parse state value for ${key}; received an int when expected a byte array`
+      );
+    return {
+      asString(): string {
+        return value.value;
+      },
+      asByteArray(): Uint8Array {
+        return value.valueRaw;
+      },
+    };
+  }
+
+  /**
+   * Extracts a integer state value out of an AppState dictionary
+   *
+   * @param state The state dictionary containing the state value
+   * @param key The key of the state value
+   * @returns An IntegerState instance containing the state value, or undefined if the key was not found
+   */
+  private static getIntegerState(
+    state: AppState,
+    key: string
+  ): IntegerState | undefined {
+    const value = state[key];
+    if (!value) return undefined;
+    if ("valueRaw" in value)
+      throw new Error(
+        `Failed to parse state value for ${key}; received a byte array when expected a number`
+      );
+    return {
+      asBigInt() {
+        return typeof value.value === "bigint"
+          ? value.value
+          : BigInt(value.value);
+      },
+      asNumber(): number {
+        return typeof value.value === "bigint"
+          ? Number(value.value)
+          : value.value;
+      },
+    };
+  }
+
+  /**
+   * Returns the smart contract's global state wrapped in a strongly typed accessor with options to format the stored value
+   */
+  public async getGlobalState(): Promise<GendContract["state"]["global"]> {
+    const state = await this.appClient.getGlobalState();
+    return {
+      get ownerAddr() {
+        return GendContractClient.getBinaryState(state, "owner_addr");
+      },
+      get prompt() {
+        return GendContractClient.getBinaryState(state, "prompt");
+      },
+      get uniqueId() {
+        return GendContractClient.getBinaryState(state, "unique_id");
+      },
+    };
+  }
+
+  public compose(): GendContractComposer {
     const client = this;
     const atc = new AtomicTransactionComposer();
     let promiseChain: Promise<unknown> = Promise.resolve();
@@ -636,7 +736,7 @@ export class HelloWorldClient {
         return this;
       },
       buyData(
-        args: MethodArgs<"buy_data(uint64,address,pay)void">,
+        args: MethodArgs<"buy_data(uint64,address,pay)uint64">,
         params?: AppClientComposeCallCoreParams & CoreAppCallArgs
       ) {
         promiseChain = promiseChain.then(() =>
@@ -712,10 +812,10 @@ export class HelloWorldClient {
           ),
         };
       },
-    } as unknown as HelloWorldComposer;
+    } as unknown as GendContractComposer;
   }
 }
-export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
+export type GendContractComposer<TReturns extends [...any[]] = []> = {
   /**
    * Calls the hello(string)string ABI method.
    *
@@ -726,7 +826,7 @@ export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
   hello(
     args: MethodArgs<"hello(string)string">,
     params?: AppClientComposeCallCoreParams & CoreAppCallArgs
-  ): HelloWorldComposer<[...TReturns, MethodReturn<"hello(string)string">]>;
+  ): GendContractComposer<[...TReturns, MethodReturn<"hello(string)string">]>;
 
   /**
    * Calls the store_my_data(uint64,address[],string)uint64 ABI method.
@@ -738,33 +838,33 @@ export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
   storeMyData(
     args: MethodArgs<"store_my_data(uint64,address[],string)uint64">,
     params?: AppClientComposeCallCoreParams & CoreAppCallArgs
-  ): HelloWorldComposer<
+  ): GendContractComposer<
     [...TReturns, MethodReturn<"store_my_data(uint64,address[],string)uint64">]
   >;
 
   /**
-   * Calls the buy_data(uint64,address,pay)void ABI method.
+   * Calls the buy_data(uint64,address,pay)uint64 ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
   buyData(
-    args: MethodArgs<"buy_data(uint64,address,pay)void">,
+    args: MethodArgs<"buy_data(uint64,address,pay)uint64">,
     params?: AppClientComposeCallCoreParams & CoreAppCallArgs
-  ): HelloWorldComposer<
-    [...TReturns, MethodReturn<"buy_data(uint64,address,pay)void">]
+  ): GendContractComposer<
+    [...TReturns, MethodReturn<"buy_data(uint64,address,pay)uint64">]
   >;
 
   /**
-   * Makes a clear_state call to an existing instance of the HelloWorld smart contract.
+   * Makes a clear_state call to an existing instance of the GendContract smart contract.
    *
    * @param args The arguments for the bare call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
   clearState(
     args?: BareCallArgs & AppClientComposeCallCoreParams & CoreAppCallArgs
-  ): HelloWorldComposer<[...TReturns, undefined]>;
+  ): GendContractComposer<[...TReturns, undefined]>;
 
   /**
    * Adds a transaction to the composer
@@ -779,7 +879,7 @@ export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
       | Transaction
       | Promise<SendTransactionResult>,
     defaultSender?: SendTransactionFrom
-  ): HelloWorldComposer<TReturns>;
+  ): GendContractComposer<TReturns>;
   /**
    * Returns the underlying AtomicTransactionComposer instance
    */
@@ -789,24 +889,24 @@ export type HelloWorldComposer<TReturns extends [...any[]] = []> = {
    */
   simulate(
     options?: SimulateOptions
-  ): Promise<HelloWorldComposerSimulateResult<TReturns>>;
+  ): Promise<GendContractComposerSimulateResult<TReturns>>;
   /**
    * Executes the transaction group and returns the results
    */
   execute(
     sendParams?: AppClientComposeExecuteParams
-  ): Promise<HelloWorldComposerResults<TReturns>>;
+  ): Promise<GendContractComposerResults<TReturns>>;
 };
 export type SimulateOptions = Omit<
   ConstructorParameters<typeof modelsv2.SimulateRequest>[0],
   "txnGroups"
 >;
-export type HelloWorldComposerSimulateResult<TReturns extends [...any[]]> = {
+export type GendContractComposerSimulateResult<TReturns extends [...any[]]> = {
   returns: TReturns;
   methodResults: ABIResult[];
   simulateResponse: modelsv2.SimulateResponse;
 };
-export type HelloWorldComposerResults<TReturns extends [...any[]]> = {
+export type GendContractComposerResults<TReturns extends [...any[]]> = {
   returns: TReturns;
   groupId: string;
   txIds: string[];

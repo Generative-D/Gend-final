@@ -1,17 +1,17 @@
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { TransactionSigner } from "algosdk";
-import { HelloWorldClient } from "../contracts/gend";
-import { helloWorldAppId } from "./helloWorldAppId";
+import { GendContractClient } from "../contracts/gend";
+import { gedDAppId } from "./helloWorldAppId";
 
 export const getHelloWorldClient = (
   algorandClient: AlgorandClient,
   activeAddress: string,
   signer: TransactionSigner
-): HelloWorldClient => {
-  const helloWorldClient = new HelloWorldClient(
+): GendContractClient => {
+  const helloWorldClient = new GendContractClient(
     {
       resolveBy: "id",
-      id: helloWorldAppId,
+      id: gedDAppId,
       sender: { addr: activeAddress, signer },
     },
     algorandClient.client.algod

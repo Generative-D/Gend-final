@@ -7,9 +7,9 @@ import Loading from "../components/loading";
 import { startTransition, useEffect, useState } from "react";
 import { useWallet } from "@txnlab/use-wallet";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils/types/algorand-client";
-import { HelloWorldClient } from "../contracts/gend";
+import { GendContractClient } from "../contracts/gend";
 import { getHelloWorldClient } from "../utils/getHelloworldClient";
-import { helloWorldAppId } from "../utils/helloWorldAppId";
+import { gedDAppId } from "../utils/helloWorldAppId";
 import { getAlgodConfigFromViteEnvironment } from "../utils/network/getAlgoClientConfigs";
 import { useAtom } from "jotai";
 import { algorandClientAtom, helloWorldClientAtom } from "../atom";
@@ -41,7 +41,8 @@ const Market = () => {
   const handleBuyImg = async (
     prompt: string,
     chain_address: string,
-    address: string
+    address: string,
+    amount: number
   ) => {
     if (!activeAddress) {
       alert("Wallet is required");
@@ -49,8 +50,12 @@ const Market = () => {
     }
     try {
       setIsLoading(true);
-      await callBuyNft();
-      const buyImgRes = await buyImg({ prompt, chain_address, address });
+      await callBuyNft(amount);
+      const buyImgRes = await buyImg({
+        prompt,
+        chain_address,
+        address,
+      });
       console.log(buyImgRes);
     } catch (error) {
       console.error("Error buying image:", error);
@@ -60,7 +65,7 @@ const Market = () => {
     }
   };
 
-  const callBuyNft = async () => {
+  const callBuyNft = async (amount: number) => {
     setIsLoading(true);
 
     if (!signer || !activeAddress || !clients || !activeAccount) {
@@ -84,7 +89,12 @@ const Market = () => {
       signer
     );
     try {
-      await methods.buyNft(algorandClient, helloWorldClient, activeAddress);
+      await methods.buyNft(
+        algorandClient,
+        helloWorldClient,
+        activeAddress,
+        amount
+      );
     } catch (error) {
       console.error("Error buying NFT:", error);
       setIsLoading(false);
@@ -106,10 +116,10 @@ const Market = () => {
 
   useEffect(() => {
     if (activeAddress && algorandClient) {
-      const helloWorldClient = new HelloWorldClient(
+      const helloWorldClient = new GendContractClient(
         {
           resolveBy: "id",
-          id: helloWorldAppId,
+          id: gedDAppId,
           sender: { addr: activeAddress, signer },
         },
         algorandClient.client.algod
@@ -186,11 +196,12 @@ const Market = () => {
                           handleBuyImg(
                             item.prompt,
                             item.chain_address,
-                            activeAddress || ""
+                            activeAddress || "",
+                            item.ownerships_num
                           )
                         }
                       >
-                        Buy with {(item.ownerships_num * 0.1).toFixed(1)} Algo
+                        Buy with {item.ownerships_num} Algo
                       </BuyButton>
                     </ItemStat>
                   </ItemStats>
