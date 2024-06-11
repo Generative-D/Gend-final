@@ -12,7 +12,7 @@ class GendContract(ARC4Contract):
 
     @arc4.abimethod()
     def hello(self, name: arc4.String) -> arc4.String:
-        return "Hello, " + name
+        return "Hello,, " + name
 
     @arc4.abimethod()
     def store_my_data(
@@ -29,7 +29,7 @@ class GendContract(ARC4Contract):
 
     @arc4.abimethod()
     def buy_data(self, unique_id: arc4.UInt64, buyer: arc4.Address, tx: gtxn.PaymentTransaction) -> arc4.UInt64:
-         
+          
          assert UInt64(1000000) * self.owner_addr.length == tx.amount, "amount is not matched"
 
          len = self.owner_addr.length

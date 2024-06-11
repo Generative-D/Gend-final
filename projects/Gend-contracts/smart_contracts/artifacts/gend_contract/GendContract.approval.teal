@@ -111,10 +111,10 @@ hello:
     // def hello(self, name: arc4.String) -> arc4.String:
     proto 1 1
     // smart_contracts/gend_contract/contract.py:15
-    // return "Hello, " + name
+    // return "Hello,, " + name
     frame_dig -1
     extract 2 0
-    byte 0x48656c6c6f2c20
+    byte 0x48656c6c6f2c2c20
     swap
     concat
     dup
