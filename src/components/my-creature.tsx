@@ -25,20 +25,24 @@ const CreatureModel = ({
   });
 
   return (
-    <group>
-      <primitive
-        object={scene}
-        onClick={onClick}
-        scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
-        // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
-      />
-    </group>
+    <Suspense fallback={<div>Loading...</div>}>
+      <group>
+        <primitive
+          object={scene}
+          onClick={onClick}
+          scale={[1.5, 1.5, 1.5]} // 모델 크기 조절
+          // rotation={[0, -Math.PI / 2, 0]} // 모델 회전 조절 (Y축 기준 -90도 회전)
+        />
+      </group>
+    </Suspense>
   );
 };
 
 const Creature = () => {
-  const gltf = useGLTF("/models/creature.glb");
-  const [scene, setScene] = useState<THREE.Group | null>(null);
+  const { scene } = useGLTF("/models/creature.glb") as {
+    scene: THREE.Group;
+  };
+  const [localScene, setLocalScene] = useState<THREE.Group | null>(null);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const [speech, setSpeech] = useState<string>("");
   const { useMessageByClick } = useGenQuery();
@@ -50,11 +54,11 @@ const Creature = () => {
   const warpperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (gltf) {
-      console.log("GLTF loaded successfully:", gltf);
-      setScene(gltf.scene);
+    if (scene) {
+      const clonedScene = scene.clone();
+      setLocalScene(clonedScene);
     }
-  }, [gltf]);
+  }, [scene]);
 
   useEffect(() => {
     if (!warpperRef.current) return;
@@ -96,8 +100,10 @@ const Creature = () => {
       </SpeechBubbleWrapper>
       {/* )} */}
       <Canvas>
-        <Suspense fallback={null}>
-          {scene && <CreatureModel onClick={handleClick} scene={scene} />}
+        <Suspense fallback={<div>Loading...</div>}>
+          {localScene && (
+            <CreatureModel onClick={handleClick} scene={localScene} />
+          )}
           <OrbitControls />
         </Suspense>
       </Canvas>

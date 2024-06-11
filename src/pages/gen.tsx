@@ -2,7 +2,7 @@
 import Creature from "../components/my-creature";
 import tw from "twin.macro";
 import { IconUp } from "../components/icon";
-import { useEffect, useState } from "react";
+import { Suspense, startTransition, useEffect, useState } from "react";
 import { useGenQuery } from "../hooks/query/useGENQuery";
 import { useWallet } from "@txnlab/use-wallet";
 import Loading from "../components/loading";
@@ -37,33 +37,6 @@ const Gen = () => {
   const [chainAddress, setChainAddress] = useState<string>("");
 
   const { signer, activeAddress, clients, activeAccount } = useWallet();
-
-  useEffect(() => {
-    if (activeAddress) {
-      const algodConfig = getAlgodConfigFromViteEnvironment();
-      const algorandClient = AlgorandClient.fromConfig({ algodConfig });
-      algorandClient.setDefaultSigner(signer);
-      setAlgorandClient(algorandClient);
-    }
-  }, [activeAddress]);
-
-  const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPromptValue(e.target.value);
-  };
-
-  useEffect(() => {
-    if (activeAddress && algorandClient) {
-      const helloWorldClient = new HelloWorldClient(
-        {
-          resolveBy: "id",
-          id: helloWorldAppId,
-          sender: { addr: activeAddress, signer },
-        },
-        algorandClient.client.algod
-      );
-      setHelloWorldAppClient(helloWorldClient);
-    }
-  }, [activeAddress, algorandClient]);
 
   const {
     useCreateImageByPrompt,
@@ -272,15 +245,116 @@ const Gen = () => {
     }
   };
 
+  const callStoreMyNft = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    const helloWorldClient = await getHelloWorldClient(
+      algorandClient,
+      activeAddress,
+      signer
+    );
+    try {
+      await methods.storeMyNft(helloWorldClient, activeAddress);
+    } catch (error) {
+      console.error("Error storing NFT:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const callBuyNft = async () => {
+    setIsLoading(true);
+
+    if (!signer || !activeAddress || !clients || !activeAccount) {
+      console.error("Signer, activeAddress, clients, or activeAccount is null");
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!algorandClient || !helloWorldAppClient) {
+      console.error("AlgorandClient or HelloWorldAppClient is null");
+      console.log(algorandClient, helloWorldAppClient);
+      setIsLoading(false);
+
+      return;
+    }
+
+    const helloWorldClient = await getHelloWorldClient(
+      algorandClient,
+      activeAddress,
+      signer
+    );
+    try {
+      await methods.buyNft(algorandClient, helloWorldClient, activeAddress);
+    } catch (error) {
+      console.error("Error buying NFT:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePromptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromptValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (activeAddress) {
+      const algodConfig = getAlgodConfigFromViteEnvironment();
+      const algorandClient = AlgorandClient.fromConfig({ algodConfig });
+      algorandClient.setDefaultSigner(signer);
+      startTransition(() => {
+        setAlgorandClient(algorandClient);
+      });
+    }
+  }, [activeAddress]);
+
+  useEffect(() => {
+    if (activeAddress && algorandClient) {
+      const helloWorldClient = new HelloWorldClient(
+        {
+          resolveBy: "id",
+          id: helloWorldAppId,
+          sender: { addr: activeAddress, signer },
+        },
+        algorandClient.client.algod
+      );
+      startTransition(() => {
+        setHelloWorldAppClient(helloWorldClient);
+      });
+    }
+  }, [algorandClient]);
+
   return (
     <>
       <Wrapper>
         {isLoading && <Loading />}
-
+        <button onClick={callHelloContract}>Call Hello Contract</button>
+        <button onClick={callStoreMyNft}>Call Store My NFT</button>
+        <button onClick={callBuyNft}>Call Buy NFT</button>
         <AiWrapper>
           {userAiData && (
             <>
-              <Creature />
+              <Suspense fallback={<Loading />}>
+                <Creature />
+              </Suspense>
 
               <AiStatsBox>
                 <AiStatsTitle>My Creature Stats</AiStatsTitle>

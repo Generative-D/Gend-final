@@ -43,18 +43,6 @@ const MarketCreature = ({ id, stats }: { id: string; stats: any }) => {
   useEffect(() => {
     if (scene) {
       const clonedScene = scene.clone();
-      clonedScene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          const material = child.material.clone();
-          material.color = new THREE.Color(
-            Math.random(),
-            Math.random(),
-            Math.random()
-          );
-          child.material = material;
-        }
-      });
-      console.log("GLTF loaded successfully:", clonedScene);
       setLocalScene(clonedScene);
     }
   }, [scene]);
