@@ -19,6 +19,34 @@ from sqlalchemy import event
 
 
 
+######################################################
+#
+# Front : React (Vercel distribution)
+# Contract : Algokit (Algorand Testnet)
+# Backend : Python Flask (AWS EC2 distribution)
+#           Python Flask (Team GPU Server, Generate Image, Text)
+#
+#
+#
+# demo distribution : https://gend-front.vercel.app/
+# demo video : https://www.youtube.com/watch?v=ojb_7EKz78c
+# demo pitchdeck : https://drive.google.com/file/d/1LEstHYtODn9SFcoV5dz9dZ-VHhqHmgpu/view?usp=sharing
+#
+#
+#
+#
+#
+#
+# written by junhwan kwon, kjh0442@yuhs.ac
+# https://www.linkedin.com/in/jun-hwan-kwon/
+# 2024.06.12
+######################################################
+
+
+
+
+
+
 application = Flask(__name__)
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///gend_v1.db'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
