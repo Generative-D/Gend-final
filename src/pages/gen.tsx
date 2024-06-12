@@ -155,6 +155,7 @@ const Gen = () => {
         address: activeAddress,
       });
       setMinePrompt(promptValue);
+      setFreePromptValue("promptValue");
       setImgSrc(result.datas[0].image);
     } catch (error) {
       console.error("Error generating image:", error);
