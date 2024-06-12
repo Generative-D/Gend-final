@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.gend_contract.contract.GendContract.clear_state_program:
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    int 1
+    return

@@ -1,0 +1,308 @@
+#pragma version 10
+
+smart_contracts.gend_contract.contract.GendContract.approval_program:
+    txn ApplicationID
+    bnz main_entrypoint@2
+    callsub __init__
+
+main_entrypoint@2:
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@9
+    method "hello(string)string"
+    method "store_my_data(uint64,address[],string)uint64"
+    method "buy_data(uint64,address,pay)uint64"
+    txna ApplicationArgs 0
+    match main_hello_route@4 main_store_my_data_route@5 main_buy_data_route@6
+    err // reject transaction
+
+main_hello_route@4:
+    // smart_contracts/gend_contract/contract.py:13
+    // @arc4.abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    txna ApplicationArgs 1
+    // smart_contracts/gend_contract/contract.py:13
+    // @arc4.abimethod()
+    callsub hello
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_store_my_data_route@5:
+    // smart_contracts/gend_contract/contract.py:17
+    // @arc4.abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    txna ApplicationArgs 3
+    // smart_contracts/gend_contract/contract.py:17
+    // @arc4.abimethod()
+    callsub store_my_data
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_buy_data_route@6:
+    // smart_contracts/gend_contract/contract.py:30
+    // @arc4.abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int pay
+    ==
+    assert // transaction type is pay
+    // smart_contracts/gend_contract/contract.py:30
+    // @arc4.abimethod()
+    callsub buy_data
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@9:
+    // smart_contracts/gend_contract/contract.py:6
+    // class GendContract(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.gend_contract.contract.GendContract.hello(name: bytes) -> bytes:
+hello:
+    // smart_contracts/gend_contract/contract.py:13-14
+    // @arc4.abimethod()
+    // def hello(self, name: arc4.String) -> arc4.String:
+    proto 1 1
+    // smart_contracts/gend_contract/contract.py:15
+    // return "Hello,, " + name
+    frame_dig -1
+    extract 2 0
+    byte 0x48656c6c6f2c2c20
+    swap
+    concat
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    retsub
+
+
+// smart_contracts.gend_contract.contract.GendContract.store_my_data(unique_id: bytes, owner_addr: bytes, prompt: bytes) -> bytes:
+store_my_data:
+    // smart_contracts/gend_contract/contract.py:17-22
+    // @arc4.abimethod()
+    // def store_my_data(
+    //      self,
+    //      unique_id: arc4.UInt64,
+    //      owner_addr: AddrArray,
+    //      prompt: arc4.String) -> arc4.UInt64:
+    proto 3 1
+    // smart_contracts/gend_contract/contract.py:24
+    // self.unique_id = unique_id
+    byte "unique_id"
+    frame_dig -3
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:25
+    // self.owner_addr = owner_addr.copy()
+    byte "owner_addr"
+    frame_dig -2
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:26
+    // self.prompt = prompt
+    byte "prompt"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:28
+    // return unique_id
+    frame_dig -3
+    retsub
+
+
+// smart_contracts.gend_contract.contract.GendContract.buy_data(unique_id: bytes, buyer: bytes, tx: uint64) -> bytes:
+buy_data:
+    // smart_contracts/gend_contract/contract.py:30-31
+    // @arc4.abimethod()
+    // def buy_data(self, unique_id: arc4.UInt64, buyer: arc4.Address, tx: gtxn.PaymentTransaction) -> arc4.UInt64:
+    proto 3 1
+    // smart_contracts/gend_contract/contract.py:33
+    // assert UInt64(1000000) * self.owner_addr.length == tx.amount, "amount is not matched"
+    int 0
+    byte "owner_addr"
+    app_global_get_ex
+    assert // check owner_addr exists
+    int 0
+    extract_uint16
+    int 1000000
+    *
+    frame_dig -1
+    gtxns Amount
+    dup
+    cover 2
+    ==
+    assert // amount is not matched
+    // smart_contracts/gend_contract/contract.py:35
+    // len = self.owner_addr.length
+    int 0
+    byte "owner_addr"
+    app_global_get_ex
+    assert // check owner_addr exists
+    int 0
+    extract_uint16
+    swap
+    // smart_contracts/gend_contract/contract.py:36
+    // amt = tx.amount * UInt64(9) // UInt64(10)
+    int 9
+    *
+    int 10
+    /
+    int 0
+    // smart_contracts/gend_contract/contract.py:37
+    // for index, item in uenumerate(urange(len)):
+    dup
+
+buy_data_for_header@1:
+    // smart_contracts/gend_contract/contract.py:37
+    // for index, item in uenumerate(urange(len)):
+    frame_dig 3
+    frame_dig 0
+    <
+    bz buy_data_after_for@6
+    // smart_contracts/gend_contract/contract.py:38
+    // addr = self.owner_addr[index].copy()
+    int 0
+    byte "owner_addr"
+    app_global_get_ex
+    assert // check owner_addr exists
+    extract 2 0
+    frame_dig 2
+    dup
+    cover 2
+    int 32
+    *
+    int 32
+    extract3 // on error: Index access is out of bounds
+    // smart_contracts/gend_contract/contract.py:39-42
+    // itxn.Payment(
+    //   receiver=addr.native,
+    //   amount= amt // (len),
+    // ).submit()
+    itxn_begin
+    // smart_contracts/gend_contract/contract.py:41
+    // amount= amt // (len),
+    frame_dig 1
+    frame_dig 0
+    /
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/gend_contract/contract.py:39
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    int 0
+    itxn_field Fee
+    // smart_contracts/gend_contract/contract.py:39-42
+    // itxn.Payment(
+    //   receiver=addr.native,
+    //   amount= amt // (len),
+    // ).submit()
+    itxn_submit
+    // smart_contracts/gend_contract/contract.py:37
+    // for index, item in uenumerate(urange(len)):
+    frame_dig 3
+    int 1
+    +
+    swap
+    int 1
+    +
+    frame_bury 2
+    frame_bury 3
+    b buy_data_for_header@1
+
+buy_data_after_for@6:
+    // smart_contracts/gend_contract/contract.py:44
+    // self.owner_addr.append(buyer.copy())
+    int 0
+    byte "owner_addr"
+    app_global_get_ex
+    assert // check owner_addr exists
+    extract 2 0
+    frame_dig -2
+    concat
+    dup
+    len
+    int 32
+    /
+    itob
+    extract 6 2
+    swap
+    concat
+    byte "owner_addr"
+    swap
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:45
+    // return unique_id
+    frame_dig -3
+    frame_bury 0
+    retsub
+
+
+// smart_contracts.gend_contract.contract.GendContract.__init__() -> void:
+__init__:
+    // smart_contracts/gend_contract/contract.py:8
+    // def __init__(self) -> None:
+    proto 0 0
+    // smart_contracts/gend_contract/contract.py:9
+    // self.unique_id = arc4.UInt64(0)
+    byte "unique_id"
+    byte 0x0000000000000000
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:10
+    // self.prompt = arc4.String("")
+    byte "prompt"
+    byte 0x0000
+    app_global_put
+    // smart_contracts/gend_contract/contract.py:11
+    // self.owner_addr = AddrArray()
+    byte "owner_addr"
+    byte 0x0000
+    app_global_put
+    retsub
