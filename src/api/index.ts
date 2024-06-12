@@ -5,7 +5,8 @@ interface axiosApiProps {
   options: AxiosRequestConfig;
 }
 
-const gen = import.meta.env.VITE_API_ENDPOINT;
+//const gen = import.meta.env.VITE_API_ENDPOINT;
+const gen = "https://gendtest.store/";
 const axiosApi = ({ url, options }: axiosApiProps) => {
   const instance = axios.create({
     baseURL: url,

@@ -661,29 +661,29 @@ export class GendContractClient {
    * @param key The key of the state value
    * @returns An IntegerState instance containing the state value, or undefined if the key was not found
    */
-  private static getIntegerState(
-    state: AppState,
-    key: string
-  ): IntegerState | undefined {
-    const value = state[key];
-    if (!value) return undefined;
-    if ("valueRaw" in value)
-      throw new Error(
-        `Failed to parse state value for ${key}; received a byte array when expected a number`
-      );
-    return {
-      asBigInt() {
-        return typeof value.value === "bigint"
-          ? value.value
-          : BigInt(value.value);
-      },
-      asNumber(): number {
-        return typeof value.value === "bigint"
-          ? Number(value.value)
-          : value.value;
-      },
-    };
-  }
+  // private static getIntegerState(
+  //   state: AppState,
+  //   key: string
+  // ): IntegerState | undefined {
+  //   const value = state[key];
+  //   if (!value) return undefined;
+  //   if ("valueRaw" in value)
+  //     throw new Error(
+  //       `Failed to parse state value for ${key}; received a byte array when expected a number`
+  //     );
+  //   return {
+  //     asBigInt() {
+  //       return typeof value.value === "bigint"
+  //         ? value.value
+  //         : BigInt(value.value);
+  //     },
+  //     asNumber(): number {
+  //       return typeof value.value === "bigint"
+  //         ? Number(value.value)
+  //         : value.value;
+  //     },
+  //   };
+  // }
 
   /**
    * Returns the smart contract's global state wrapped in a strongly typed accessor with options to format the stored value
