@@ -41,8 +41,8 @@ const Market = () => {
   const handleBuyImg = async (
     prompt: string,
     chain_address: string,
-    address: string,
-    amount: number
+    address: string
+    //amount: number
   ) => {
     if (!activeAddress) {
       alert("Wallet is required");
@@ -50,7 +50,7 @@ const Market = () => {
     }
     try {
       setIsLoading(true);
-      await callBuyNft(amount);
+      await callBuyNft(); //amount
       const buyImgRes = await buyImg({
         prompt,
         chain_address,
@@ -65,43 +65,47 @@ const Market = () => {
     }
   };
 
-  const callBuyNft = async (amount: number) => {
-    setIsLoading(true);
+  const callBuyNft = async () =>
+    //amount: number
+    {
+      setIsLoading(true);
 
-    if (!signer || !activeAddress || !clients || !activeAccount) {
-      console.error("Signer, activeAddress, clients, or activeAccount is null");
-      setIsLoading(false);
+      if (!signer || !activeAddress || !clients || !activeAccount) {
+        console.error(
+          "Signer, activeAddress, clients, or activeAccount is null"
+        );
+        setIsLoading(false);
 
-      return;
-    }
+        return;
+      }
 
-    if (!algorandClient || !helloWorldAppClient) {
-      console.error("AlgorandClient or HelloWorldAppClient is null");
-      console.log(algorandClient, helloWorldAppClient);
-      setIsLoading(false);
+      if (!algorandClient || !helloWorldAppClient) {
+        console.error("AlgorandClient or HelloWorldAppClient is null");
+        console.log(algorandClient, helloWorldAppClient);
+        setIsLoading(false);
 
-      return;
-    }
+        return;
+      }
 
-    const helloWorldClient = await getHelloWorldClient(
-      algorandClient,
-      activeAddress,
-      signer
-    );
-    try {
-      await methods.buyNft(
+      const helloWorldClient = await getHelloWorldClient(
         algorandClient,
-        helloWorldClient,
         activeAddress,
-        amount
+        signer
       );
-    } catch (error) {
-      console.error("Error buying NFT:", error);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        await methods.buyNft(
+          algorandClient,
+          helloWorldClient,
+          activeAddress
+          //amount
+        );
+      } catch (error) {
+        console.error("Error buying NFT:", error);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
   useEffect(() => {
     if (activeAddress) {
@@ -196,8 +200,8 @@ const Market = () => {
                           handleBuyImg(
                             item.prompt,
                             item.chain_address,
-                            activeAddress || "",
-                            item.ownerships_num
+                            activeAddress || ""
+                            //item.ownerships_num
                           )
                         }
                       >

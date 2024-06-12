@@ -18,11 +18,12 @@ export const helloNft = async (helloWorldAppClient: GendContractClient) => {
 //uniqueId,ownerAddr,prompt
 export const storeMyNft = async (
   helloWorldAppClient: GendContractClient,
-  activeAddress: string
+  activeAddress: string,
+  prompt: string
 ) => {
   const nft = {
-    uniqueId: BigInt("2"),
-    prompt: "1 1 1",
+    uniqueId: BigInt(Math.floor(Math.random() * 100) + 1),
+    prompt: prompt,
   };
   try {
     const result = await helloWorldAppClient.storeMyData({
@@ -39,8 +40,8 @@ export const storeMyNft = async (
 export const buyNft = async (
   algorand: algokit.AlgorandClient,
   helloWorldAppClient: GendContractClient,
-  activeAddress: string,
-  amount: number
+  activeAddress: string
+  //amount: number
 ) => {
   const nft = {
     uniqueId: BigInt("1"),
